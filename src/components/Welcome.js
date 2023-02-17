@@ -1,5 +1,10 @@
 export const Welcome = (onNavigate) => {
   const div = document.createElement('div');
+  div.classList.add('fondo');
+
+  const logo = document.createElement('img');
+  logo.src = '../assets/imagenes/logo2.png';
+
   const title = document.createElement('h2');
   const buttonWelcome = document.createElement('button');
 
@@ -7,10 +12,10 @@ export const Welcome = (onNavigate) => {
   title.textContent = 'Eventos a un clic';
 
   buttonWelcome.addEventListener('click', () => {
-    onNavigate('/enter');
+    onNavigate('/login');
   });
 
-  div.append(title, buttonWelcome);
+  div.append(logo, title, buttonWelcome);
 
   return div;
 };
