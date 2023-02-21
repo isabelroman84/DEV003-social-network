@@ -1,4 +1,33 @@
-.fondo{
-    background: #F2BC57;
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
+  * {
+      margin: 0;
+      padding: 0;
+      font-family: 'Open Sans', sans-serif;  
+    }
+
+    .textW { 
+        font-size: 1.2em;
+        line-height: 1.5;
+        text-align:center;
+        /* text-align: justify; */
+        margin: 1em 25em;
+        background-color: #f2f2f2;
+        padding: 10px;
+  border: 1px solid #ddd;
+    }
+
+      
+.divLogo{
+    background: white;
 }
+
+/* .logo {
+    width: 64px;
+    height: 80px;
+} */
+/* divLogo.classList.add('divLogo');
+logo.classList.add('logo');
+divFondo.classList.add('divFondo');
+textW.classList.add('textW');
+buttonWelcome.classList.add('button'); */

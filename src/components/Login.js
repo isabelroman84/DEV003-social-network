@@ -1,34 +1,62 @@
 export const Login = (onNavigate) => {
-  const div = document.createElement('div');
-  const title = document.createElement('h2');
-  const inputLogin = document.createElement('input');
+  // Creando estructura
+  const divContainer = document.createElement('div');
+  const divHeader = document.createElement('div');
+  const logo = document.createElement('img');
+  const divForm = document.createElement('div');
+  const form = document.createElement('form');
+  // const divLogin = document.createElement('div');
+  const labelEmail = document.createElement('label');
+  const inputEmail = document.createElement('input');
+  const labelPassword = document.createElement('label');
   const inputPassword = document.createElement('input');
   const buttonLogin = document.createElement('button');
-  const buttonRegister = document.createElement('button');
+  const divGmail = document.createElement('div');
   const buttonGoogle = document.createElement('button');
+  const register = document.createElement('p');
+  const registerhref = document.createElement('a');
 
-  inputLogin.textContent = 'Ingresa con e-mail';
-  inputPassword.textContent = 'Contraseña';
+  // Asignando clases
+  divContainer.classList.add('divContainer');
+  divHeader.classList.add('divHeader');
+  logo.classList.add('logo');
+  divForm.classList.add('divForm');
+  // divLogin.classList.add('divLogin');
+  labelEmail.classList.add('labelEmail');
+  labelPassword.classList.add('labelPassword');
+  buttonLogin.classList.add('buttonLogin');
+  divGmail.classList.add('divGmail');
+  buttonGoogle.classList.add('buttonGoogle');
+  register.classList.add('register');
+
+  // Dando contenido a los elementos
+  divHeader.appendChild(logo);
+  logo.src = '../assets/imagenes/city-neg.png';
+  inputEmail.type = 'email';
+  labelEmail.textContent = 'Email';
+  inputEmail.placeholder = 'usuario@usuario.com';
+  inputPassword.type = 'password';
+  labelPassword.textContent = 'Contraseña';
+  inputPassword.placeholder = '**************';
   buttonLogin.textContent = 'Ingresar';
-  buttonRegister.textContent = 'Regístrate';
+  buttonGoogle.textContent = 'Ingresar con Google';
+  register.textContent = '¿Aún no tienes una cuenta?';
+  registerhref.href = 'Regístrate';
 
-  buttonGoogle.textContent = 'Continuar con Google';
+  // Agregando con append
+  divForm.appendChild(form);
+  form.append(labelEmail, inputEmail, labelPassword, inputPassword, buttonLogin);
+  divContainer.append(divHeader, divForm, buttonGoogle, register, registerhref);
 
-  title.textContent = 'City Fest';
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // const emailValue = inputEmail.value;
+    // const passwordValue = inputPassword.value;
+  });
 
- buttonLogin.addEventListener('click', () => {
+  buttonLogin.addEventListener('click', () => {
     onNavigate('/wall');
   });
 
-  buttonRegister.addEventListener('click', () => {
-    onNavigate('/register');
-  });
-
-  buttonGoogle.addEventListener('click', () => {
-    onNavigate('/google');
-  });
-
-  div.append(title, inputLogin, inputPassword, buttonLogin, buttonGoogle, buttonRegister);
-
-  return div;
+  return divContainer;
 };
