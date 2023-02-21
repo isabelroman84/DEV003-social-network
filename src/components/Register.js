@@ -1,19 +1,26 @@
+import { userElement } from '../app/funciones-firebase.js';
 
 export const Register = (onNavigate) => {
   const div = document.createElement('div');
+  const divForm = document.createElement('div');
+  const form = document.createElement('form');
+  divForm.append(form);
   const title = document.createElement('h2');
-  const inputName = document.createElement('input');
+  // const inputName = document.createElement('input');
   const inputEmail = document.createElement('input');
   const inputPassword = document.createElement('input');
-  const inputRePassword = document.createElement('input');
-  const buttonCreate = document.createElement('button');
+  // const inputRePassword = document.createElement('input');
+  const buttonRegister = document.createElement('button');
+  form.append(inputEmail, inputPassword, buttonRegister);
+  const buttonGoogle = document.createElement('button');
   const buttonBack = document.createElement('button');
 
-  inputName.textContent = 'Nombre';
+  // inputName.textContent = 'Nombre';
   inputEmail.textContent = 'E-mail';
   inputPassword.textContent = 'Contraseña';
-  inputRePassword.textContent = 'Repetir Contraseña';
-  buttonCreate.textContent = 'Crear Cuenta';
+  // inputRePassword.textContent = 'Repetir Contraseña';
+  buttonRegister.textContent = 'Crear Cuenta';
+  buttonGoogle.textContent = 'Continuar con Google';
   buttonBack.textContent = 'Regresar';
   title.textContent = 'Crea tu cuenta';
 
@@ -21,7 +28,25 @@ export const Register = (onNavigate) => {
     onNavigate('/login');
   });
 
-  div.append(title, inputName, inputEmail, inputPassword, buttonCreate, buttonBack);
+  buttonRegister.addEventListener('click', () => {
+    const emailValue = inputEmail.value;
+    const passwordValue = inputPassword.value;
+    if (emailValue && passwordValue) {
+      userElement(emailValue, passwordValue)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          onNavigate('/login');
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          // const errorMessage = error.message;
+          // ..
+        });
+    }
+  });
+  div.append(title, divForm, buttonGoogle, buttonBack);
 
   return div;
 };
