@@ -3,14 +3,14 @@ export const Welcome = (onNavigate) => {
   //const divWelcome = document.createElement('div');
   const divLogo = document.createElement('div');
   const logo = document.createElement('img');
-  const divFondo = document.createElement('div');
+  const divtexto = document.createElement('div');
   const textW = document.createElement('h2');
   const buttonWelcome = document.createElement('button');
 
   container.classList.add('container');
   divLogo.classList.add('divLogo');
   logo.classList.add('logo');
-  divFondo.classList.add('divFondo');
+  divtexto.classList.add('divtexto');
   textW.classList.add('textW');
   buttonWelcome.classList.add('buttonWelcome');
 
@@ -20,7 +20,8 @@ export const Welcome = (onNavigate) => {
 
   divLogo.appendChild(logo);
   textW.appendChild(buttonWelcome);
-  container.append(divLogo, textW);
+  divtexto.appendChild(textW);
+  container.append(divLogo, divtexto);
   //container.appendChild(divWelcome);
 
 
