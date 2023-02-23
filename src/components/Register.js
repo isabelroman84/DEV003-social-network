@@ -41,8 +41,9 @@ export const Register = (onNavigate) => {
         })
         .catch((error) => {
           const errorCode = error.code;
-          // const errorMessage = error.message;
-          // ..
+          const errorMessage = error.message;
+          console.log(errorCode);
+          console.log(errorMessage);
         });
     }
   });
