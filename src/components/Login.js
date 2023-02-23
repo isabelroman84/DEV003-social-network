@@ -1,3 +1,5 @@
+import { login } from '../lib/service';
+
 export const Login = (onNavigate) => {
   // Creando estructura
   const divContainer = document.createElement('div');
@@ -41,7 +43,8 @@ export const Login = (onNavigate) => {
   buttonLogin.textContent = 'Ingresar';
   buttonGoogle.textContent = 'Ingresar con Google';
   register.textContent = '¿Aún no tienes una cuenta?';
-  registerhref.href = 'Regístrate';
+  registerhref.setAttribute('href', '/register');
+  registerhref.textContent = 'Regístrate';
 
   // Agregando con append
   divForm.appendChild(form);
@@ -50,13 +53,40 @@ export const Login = (onNavigate) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    // const emailValue = inputEmail.value;
-    // const passwordValue = inputPassword.value;
+    const email = inputEmail.value;
+    const password = inputPassword.value;
+    // console.log(email, password);
+
+    // recibe 3 parámetros: mi configuración auth que la traje de firebase, email y password
+    // como esto toma tiempo se puede usar la promesa .then
+    // firebase espera que creemos una contraseña con 6 caracteres como mínimo, se consideran
+    // los errores con try catch
+
+    login(email, password)
+    // console.log(userCredentials)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        onNavigate('/wall');
+        console.log(user);
+      })
+
+      .catch((error) => {
+        const errorCode = error.code;
+        if (errorCode === 'auth/wrong-password') {
+          alert('Password incorrecto');
+        }
+        console.log(error);
+        console.log(errorCode);
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      // ..
+      });
   });
 
-  buttonLogin.addEventListener('click', () => {
-    onNavigate('/wall');
-  });
+  // buttonLogin.addEventListener('click', () => {
+  //   onNavigate('/wall');
+  // });
 
   return divContainer;
 };
