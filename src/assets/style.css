@@ -1,33 +1,75 @@
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
   * {
       margin: 0;
       padding: 0;
       font-family: 'Open Sans', sans-serif;  
     }
-
-    .textW { 
-        font-size: 1.2em;
-        line-height: 1.5;
-        text-align:center;
-        /* text-align: justify; */
-        margin: 1em 25em;
-        background-color: #f2f2f2;
-        padding: 10px;
-  border: 1px solid #ddd;
+    #root{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    body{
+        background-image: url(imagenes/fondoo.jpg);
+        background-size: cover;
+        
+        
     }
 
-      
-.divLogo{
-    background: white;
+    .container{
+        background-color: azure;
+        width: 85%;
+        height: 600px;
+        margin: auto; 
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    
+
+    .textW {
+        width: 300px;
+        height:300px;
+        font-size: 1.2em;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 1em 25em;
+        background-color: #509c87;
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+
+    }
+
+    .buttonWelcome {
+        margin-top: 40px ;
+    }
+
+
+
+.logo{
+    width: 400px;
+    height: 400px;
 }
 
-/* .logo {
-    width: 64px;
-    height: 80px;
-} */
+.divlogo {
+    background-color:#d11b1b;
+    width: 30px;
+    height: 300px;
+}
 /* divLogo.classList.add('divLogo');
 logo.classList.add('logo');
 divFondo.classList.add('divFondo');
 textW.classList.add('textW');
 buttonWelcome.classList.add('button'); */
+
+ .divContainer{
+background-color: bisque;
+}
