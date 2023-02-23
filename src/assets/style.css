@@ -5,20 +5,28 @@
       padding: 0;
       font-family: 'Open Sans', sans-serif;  
     }
-    #root{
+    
+    .container{
+        background-image: url(imagenes/fondoo.jpg);
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
         display: flex;
+        flex-wrap: wrap;
+    }
+    .divLogo {
+        width: 100%;
+        height: 40%;
+        background-color: #fff;
+        border-radius: 0 0 50% 50%;
         justify-content: center;
         align-items: center;
     }
-    
-    body{
-        background-image: url(imagenes/fondoo.jpg);
-        background-size: cover;
-        
-        
+    .divtexto{
+        width: 100%;
     }
 
-    .container{
+    /*.container{
         background-color: azure;
         width: 85%;
         height: 600px;
@@ -64,12 +72,7 @@
     width: 30px;
     height: 300px;
 }
-/* divLogo.classList.add('divLogo');
-logo.classList.add('logo');
-divFondo.classList.add('divFondo');
-textW.classList.add('textW');
-buttonWelcome.classList.add('button'); */
 
  .divContainer{
 background-color: bisque;
-}
+}*/
