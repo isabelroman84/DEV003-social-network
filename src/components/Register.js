@@ -1,4 +1,4 @@
-import { userElement } from '../app/funciones-firebase.js';
+import { registerUser } from '../lib/service.js';
 
 export const Register = (onNavigate) => {
   const div = document.createElement('div');
@@ -28,11 +28,13 @@ export const Register = (onNavigate) => {
     onNavigate('/login');
   });
 
-  buttonRegister.addEventListener('click', () => {
+  buttonRegister.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('click');
     const emailValue = inputEmail.value;
     const passwordValue = inputPassword.value;
     if (emailValue && passwordValue) {
-      userElement(emailValue, passwordValue)
+      registerUser(emailValue, passwordValue)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
