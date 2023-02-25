@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { auth } from './config';
 
 export const registerUser = function (email, password) {
-    createUserWithEmailAndPassword(auth, email, password);
-}
+  return createUserWithEmailAndPassword(auth, email, password);
+};
 
 export const login = (email, password) => signInWithEmailAndPassword(auth, email, password);

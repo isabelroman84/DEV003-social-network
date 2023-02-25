@@ -5,9 +5,9 @@ export const Wall = (onNavigate) => {
   const buttonPassword = document.createElement('button');
   const buttonBack = document.createElement('button');
 
-  //buttonLogin.textContent = 'Ingresa con e-mail';
-  //buttonPassword.textContent = 'Contraseña';
-  //buttonBack.textContent = 'Regresar';
+  // buttonLogin.textContent = 'Ingresa con e-mail';
+  // buttonPassword.textContent = 'Contraseña';
+  // buttonBack.textContent = 'Regresar';
   title.textContent = 'Muro';
 
   buttonBack.addEventListener('click', () => {

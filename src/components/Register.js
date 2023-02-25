@@ -43,9 +43,9 @@ export const Register = (onNavigate) => {
 
     if (emailValue && passwordValue) {
       registerUser(emailValue, passwordValue)
-        .then((userCredential) => {
+        .then(() => {
           // Signed in
-          const user = userCredential.user;
+          // const user = userCredential.user;
           // console.log(user);
           onNavigate('/login');
         })
@@ -54,6 +54,9 @@ export const Register = (onNavigate) => {
           const errorMessage = error.message;
           console.log(errorCode);
           console.log(errorMessage);
+          if (errorCode === 'auth/email-already-in-use') {
+            alert('Usuario ya existe');
+          }
         });
     }
   });
