@@ -4,6 +4,7 @@ import { login } from '../lib/service';
 export const Login = (onNavigate) => {
   // Creando estructura
   const divContainer = document.createElement('div');
+  const divLogo = document.createElement('div');
   const divHeader = document.createElement('div');
   const logo = document.createElement('img');
   const divForm = document.createElement('div');
@@ -21,6 +22,7 @@ export const Login = (onNavigate) => {
 
   // Asignando clases
   divContainer.classList.add('divContainer');
+  divLogo.classList.add('divLogo');
   divHeader.classList.add('divHeader');
   logo.classList.add('logo');
   divForm.classList.add('divForm');
@@ -33,7 +35,8 @@ export const Login = (onNavigate) => {
   register.classList.add('register');
 
   // Dando contenido a los elementos
-  logo.src = '../assets/imagenes/city-neg.png';
+  divHeader.appendChild(logo);
+  logo.src = '../assets/imagenes/citi-pq.png';
   inputEmail.type = 'email';
   labelEmail.textContent = 'Email';
   inputEmail.placeholder = 'usuario@usuario.com';
@@ -50,7 +53,7 @@ export const Login = (onNavigate) => {
   divHeader.appendChild(logo);
   divForm.appendChild(form);
   form.append(labelEmail, inputEmail, labelPassword, inputPassword, buttonLogin);
-  divContainer.append(divHeader, divForm, buttonGoogle, register, registerhref);
+  divContainer.append(divLogo, divHeader, divForm, buttonGoogle, register, registerhref);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();

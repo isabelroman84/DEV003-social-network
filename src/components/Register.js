@@ -5,6 +5,8 @@ import { registerUser } from '../lib/service.js';
 export const Register = (onNavigate) => {
    // Creando estructura
   const divRegister = document.createElement('div');
+  const divLogo = document.createElement('div');
+  const logo = document.createElement('img');
   const title = document.createElement('h2');
   const divForm = document.createElement('div');
   const form = document.createElement('form');
@@ -14,13 +16,14 @@ export const Register = (onNavigate) => {
   const inputRePassword = document.createElement('input');
   const buttonRegister = document.createElement('button');
   // const iconBack = document.createElement('i');
-
-  // Asignando clases
+  logo.src = '../assets/imagenes/citi-pq.png';
+  divLogo.classList.add('divLogo');
   divRegister.classList.add('divRegister');
   buttonRegister.classList.add('buttonRegister');
 
   // Dando contenido a los elementos
   title.textContent = 'Regístrate';
+  logo.classList.add('logo');
   inputName.placeholder = 'Nombre de Usuario';
   inputEmail.placeholder = 'usuario@usuario.com';
   inputEmail.type = 'email';
@@ -30,10 +33,14 @@ export const Register = (onNavigate) => {
   inputRePassword.type = 'password';
   buttonRegister.textContent = 'Crea tu cuenta';
 
-  // Asignando padres e hijos
+  divLogo.appendChild(logo);
   divForm.appendChild(form);
   form.append(inputName, inputEmail, inputPassword, inputRePassword, buttonRegister);
-  divRegister.append(title, divForm);
+  divRegister.append(divLogo, title, divForm);
+
+  // buttonBack.addEventListener('click', () => {
+  //   onNavigate('/login');
+  // });
 
   buttonRegister.addEventListener('click', (e) => {
     e.preventDefault();

@@ -7,7 +7,7 @@
     }
     
     .container{
-        background-image: url(imagenes/fondoo.jpg);
+        background-image: url(imagenes/ciudad2.jpeg);
         background-size: cover;
         background-position: center;
         height: 100vh;
@@ -16,14 +16,55 @@
     }
     .divLogo {
         width: 100%;
-        height: 40%;
+        height: 25%;
         background-color: #fff;
         border-radius: 0 0 50% 50%;
         justify-content: center;
         align-items: center;
     }
-    .divtexto{
-        width: 100%;
+
+    .logo {
+        margin: 0px 15px 50px 80px;
+ 
+    }
+    
+    .buttonWelcome{
+        width: 100px;
+        height: 50px;
+        background-color: #49BF9E;
+        border-radius: 20px;
+        margin-top: 80px;
+        margin-bottom: 50px;
+        margin-left: 130px;
+        margin-right: 100px;
+
+    }
+    
+
+.divtexto{
+    width: 100%;
+    background: none;
+    text-align: center;
+    margin-top: 100px;
+    padding: 0px 20px 50px 30px; 
+    
+}
+
+.textW{
+    background-color: #F2BC57;
+    border-radius: 20%;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 5px;
+}
+
+.divContainer {
+        background-color: #F2BC57;
+
+    }
+
+.divLogin{
+        background-color: #F2BC57;
     }
 
     /*.container{
