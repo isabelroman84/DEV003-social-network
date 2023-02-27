@@ -3,7 +3,7 @@ import Toastify from 'toastify-js';
 import { registerUser } from '../lib/service.js';
 
 export const Register = (onNavigate) => {
-   // Creando estructura
+  // Creando estructura
   const divRegister = document.createElement('div');
   const divLogo = document.createElement('div');
   const logo = document.createElement('img');
