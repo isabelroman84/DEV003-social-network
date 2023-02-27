@@ -1,6 +1,5 @@
 export const Welcome = (onNavigate) => {
   const container = document.createElement('div');
-  // const divWelcome = document.createElement('div');
   const divLogo = document.createElement('div');
   const logo = document.createElement('img');
   const divtexto = document.createElement('div');
@@ -22,7 +21,6 @@ export const Welcome = (onNavigate) => {
   textW.appendChild(buttonWelcome);
   divtexto.appendChild(textW);
   container.append(divLogo, divtexto);
-  // container.appendChild(divWelcome);
 
   buttonWelcome.addEventListener('click', () => {
     onNavigate('/login');

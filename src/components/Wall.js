@@ -51,6 +51,5 @@ export const Wall = (onNavigate) => {
   buttonLogout.addEventListener('click', () => {
     onNavigate('/');
   });
-  
   return divWall;
 };

@@ -1,6 +1,6 @@
 // importando funciones que se requieren desde el SDK
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 // import {
 //   getFirestore,
 // } from 'firebase/firestore';
@@ -21,3 +21,5 @@ export const app = initializeApp(firebaseApp);
 
 // la app tiene ahora activada la autenticación
 export const auth = getAuth(app);
+
+export const provider = new GoogleAuthProvider(app);

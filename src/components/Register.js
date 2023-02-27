@@ -1,6 +1,6 @@
 import Toastify from 'toastify-js';
 // import { showMessage } from '../helpers/fb_api.js';
-import { registerUser } from '../lib/service.js';
+import { registerUser, sendEmail } from '../lib/service.js';
 
 export const Register = (onNavigate) => {
   // Creando estructura
@@ -15,15 +15,16 @@ export const Register = (onNavigate) => {
   const inputPassword = document.createElement('input');
   const inputRePassword = document.createElement('input');
   const buttonRegister = document.createElement('button');
-  // const iconBack = document.createElement('i');
-  logo.src = '../assets/imagenes/citi-pq.png';
+
+  // Asignando clases
+  logo.classList.add('logo');
   divLogo.classList.add('divLogo');
   divRegister.classList.add('divRegister');
   buttonRegister.classList.add('buttonRegister');
 
   // Dando contenido a los elementos
+  logo.src = '../assets/imagenes/citi-pq.png';
   title.textContent = 'Regístrate';
-  logo.classList.add('logo');
   inputName.placeholder = 'Nombre de Usuario';
   inputEmail.placeholder = 'usuario@usuario.com';
   inputEmail.type = 'email';
@@ -33,15 +34,13 @@ export const Register = (onNavigate) => {
   inputRePassword.type = 'password';
   buttonRegister.textContent = 'Crea tu cuenta';
 
+  // Dando contenido a los elementos
   divLogo.appendChild(logo);
   divForm.appendChild(form);
   form.append(inputName, inputEmail, inputPassword, inputRePassword, buttonRegister);
   divRegister.append(divLogo, title, divForm);
 
-  // buttonBack.addEventListener('click', () => {
-  //   onNavigate('/login');
-  // });
-
+  // Asignando funcionalidad
   buttonRegister.addEventListener('click', (e) => {
     e.preventDefault();
     // console.log('click');
@@ -56,7 +55,7 @@ export const Register = (onNavigate) => {
         text: 'Ingresa un usuario',
         duration: 700,
         style: {
-          background: 'linear-gradient(to right, #f8a72b, #bf523a)',
+          background: 'linear-gradient(to right, #F2BC57, #F24495)',
         },
       }).showToast();
     } else if (passwordValue !== repeatPassValue) {
@@ -64,25 +63,32 @@ export const Register = (onNavigate) => {
         text: 'La contraseña no coincide',
         duration: 700,
         style: {
-          background: 'linear-gradient(to right, #f2a71b, #bf522a)',
+          background: 'linear-gradient(to right, #F2BC57, #F24495)',
         },
       }).showToast();
     } else if (nameValue && emailValue && passwordValue && repeatPassValue) {
+      sendEmail()
+        .then(() => {
+          Toastify({
+            text: 'Verifica tu email',
+            duration: 2000,
+            style: {
+              background: 'linear-gradient(to right, #F2BC57, #F24495)',
+            },
+          }).showToast();
+          // console.log(res);
+          // alert('Verifica tu email');
+          onNavigate('/login');
+        }).catch(console.log);
+
       registerUser(emailValue, passwordValue)
         .then((userCredential) => {
           const user = userCredential.user;
-          // console.log(user.email);
-          Toastify({
-            text: `Ahora puedes publicar ${nameValue}`,
-            duration: 400,
-            style: {
-              background: 'linear-gradient(to right, #f2a71b, #bf522a)',
-            },
-          }).showToast(user);
-          // Signed in
-          // console.log(user);
-          onNavigate('/wall');
+          console.log(user);
         })
+        // .then(() => {
+        //   onNavigate('/wall');
+        // })
         .catch((error) => {
           const errorCode = error.code;
           // console.log(errorCode);
@@ -99,7 +105,7 @@ export const Register = (onNavigate) => {
               text: 'Email inválido',
               duration: 700,
               style: {
-                background: 'linear-gradient(to right, #f2a71b, #bf522a)',
+                background: 'linear-gradient(to right, #F2BC57, #F24495)',
               },
             }).showToast();
           } else if (errorCode === 'auth/email-already-in-use') {
@@ -107,7 +113,7 @@ export const Register = (onNavigate) => {
               text: 'El correo ya existe',
               duration: 700,
               style: {
-                background: 'linear-gradient(to right, #f2a71b, #bf522a)',
+                background: 'linear-gradient(to right, #F2BC57, #F24495)',
               },
             }).showToast();
           } else if (errorCode === 'auth/invalid-password') {
@@ -115,7 +121,7 @@ export const Register = (onNavigate) => {
               text: 'Contraseña inválida',
               duration: 700,
               style: {
-                background: 'linear-gradient(to right, #f2a71b, #bf522a)',
+                background: 'linear-gradient(to right, #F2BC57, #F24495)',
               },
             }).showToast();
           } else if (errorCode === 'auth/weak-password') {
@@ -123,7 +129,7 @@ export const Register = (onNavigate) => {
               text: 'Ingrese al menos 6 caracteres',
               duration: 700,
               style: {
-                background: 'linear-gradient(to right, #f2a71b, #bf522a)',
+                background: 'linear-gradient(to right, #F2BC57, #F24495)',
               },
             }).showToast();
           }
