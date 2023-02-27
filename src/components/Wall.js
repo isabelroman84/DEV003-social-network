@@ -1,25 +1,22 @@
 import Toastify from 'toastify-js';
 
 export const Wall = (onNavigate) => {
-  const divWall = document.createElement('div');
-  const divPost = document.createElement('div');
-  const title = document.createElement('h3');
-  const post = document.createElement('input');
-  const buttonPublish = document.createElement('button');
-  const buttonLogout = document.createElement('button');
+  const div = document.createElement('div');
+  const divLogo = document.createElement('div');
+  const logo = document.createElement('img');
+  const title = document.createElement('h2');
+  const buttonLogin = document.createElement('button');
+  const buttonPassword = document.createElement('button');
+  const buttonBack = document.createElement('button');
 
-  divWall.classList.add('divWall');
-  divPost.classList.add('divPost');
-  buttonLogout.classList.add('button');
+  divLogo.classList.add('divLogo');
+  logo.classList.add('logo');
 
-  title.textContent = 'Ingresa aquí los datos de tu evento';
-  post.type = 'textarea';
-  post.placeholder = 'Evento, Fecha, Lugar';
-  buttonPublish.textContent = 'Publicar';
-  buttonLogout.textContent = 'Salir';
-
-  divPost.append(post, buttonPublish);
-  divWall.append(title, divPost, buttonLogout);
+  logo.src = '../assets/imagenes/citi-pq.png';
+  // buttonLogin.textContent = 'Ingresa con e-mail';
+  // buttonPassword.textContent = 'Contraseña';
+  // buttonBack.textContent = 'Regresar';
+  title.textContent = 'Muro';
 
   buttonPublish.addEventListener('click', () => {
     const postValue = post.value;
@@ -36,9 +33,8 @@ export const Wall = (onNavigate) => {
     }
   });
 
-  buttonLogout.addEventListener('click', () => {
-    onNavigate('/');
-  });
+  divLogo.appendChild(logo);
+  div.append(divLogo, title, buttonLogin, buttonPassword, buttonBack);
 
   return divWall;
 };
