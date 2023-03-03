@@ -14,6 +14,10 @@ export function registerUser(email, password) {
   return createUserWithEmailAndPassword(auth, email, password);
 }
 
+// export function getCurrentUser() {
+//   return auth.currentUser;
+// }
+
 export const sendEmail = () => sendEmailVerification(auth.currentUser);
 // export const emailVerification = () => isSignInWithEmailLink(auth, window.location.href);
 
