@@ -1,4 +1,5 @@
+// import { authUser } from './lib/serviceAuth.js';
 import './router.js';
-import { authUser } from './lib/service.js';
 
-authUser();
+// no parece estar funcionando
+// authUser();

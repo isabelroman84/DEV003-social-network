@@ -1,90 +1,88 @@
-import { GoogleAuthProvider } from 'firebase/auth';
-import Toastify from 'toastify-js';
-import { authGoogle, loginEmail } from '../lib/service';
+// import { GoogleAuthProvider } from 'firebase/auth';
+import { showMessage } from '../helpers/templates.js';
+import {
+  authGoogle, getCurrentUser, GoogleAuthProvider, loginEmail,
+} from '../lib/serviceAuth.js';
 
 export const Login = (onNavigate) => {
   // Creando estructura
-  const divContainer = document.createElement('div');
-  const divLogo = document.createElement('div');
-  const divHeader = document.createElement('div');
-  const logo = document.createElement('img');
+  const container = document.createElement('div');
   const divForm = document.createElement('div');
+  const divGmail = document.createElement('div');
+  const divLine = document.createElement('div');
   const form = document.createElement('form');
-  // const iconBack = document.createElement('i');
-  // const divLogin = document.createElement('div');
   const labelEmail = document.createElement('label');
-  const inputEmail = document.createElement('input');
   const labelPassword = document.createElement('label');
+  const inputEmail = document.createElement('input');
   const inputPassword = document.createElement('input');
   const buttonLogin = document.createElement('button');
-  const divGmail = document.createElement('div');
+  const line = document.createElement('hr');
   const buttonGoogle = document.createElement('img');
   const register = document.createElement('p');
   const registerhref = document.createElement('a');
 
   // Asignando clases
-  divContainer.classList.add('divContainer');
-  divLogo.classList.add('divLogo');
-  divHeader.classList.add('divHeader');
-  logo.classList.add('logo');
-  divForm.classList.add('divForm');
-  // divLogin.classList.add('divLogin');
-  labelEmail.classList.add('labelEmail');
-  labelPassword.classList.add('labelPassword');
-  buttonLogin.classList.add('buttonLogin');
-  divGmail.classList.add('divGmail');
-  buttonGoogle.classList.add('google');
+  container.classList.add('container');
+  divForm.classList.add('div-form');
+  divGmail.classList.add('div-gmail');
+  divLine.classList.add('line');
+  form.classList.add('form');
+  labelEmail.classList.add('label');
+  labelPassword.classList.add('label');
+  inputEmail.classList.add('input');
+  inputPassword.classList.add('input');
+  buttonLogin.classList.add('btn');
+  line.classList.add('hr');
   register.classList.add('register');
+  registerhref.classList.add('href');
+  buttonGoogle.classList.add('google');
 
   // Dando contenido a los elementos
-  divHeader.appendChild(logo);
-  logo.src = '../assets/imagenes/citi-pq.png';
-  buttonGoogle.src = '../assets/imagenes/google_1x.png';
   inputEmail.type = 'email';
   labelEmail.textContent = 'Email';
   inputEmail.placeholder = 'usuario@usuario.com';
+  inputEmail.name = 'email';
+  inputEmail.autocomplete = 'off';
   inputPassword.type = 'password';
   labelPassword.textContent = 'Contraseña';
   inputPassword.placeholder = '**************';
+  inputPassword.name = 'password';
+  inputPassword.autocomplete = 'off';
   buttonLogin.textContent = 'Ingresar';
+  buttonLogin.type = 'submit';
   buttonGoogle.textContent = 'Ingresar con Google';
   register.textContent = '¿Aún no tienes una cuenta?';
   registerhref.setAttribute('href', '/register');
   registerhref.textContent = 'Regístrate';
+  buttonGoogle.src = '../assets/img/google_1x.png';
 
   // Asignando padres e hijos
-  divHeader.appendChild(logo);
-  divForm.appendChild(form);
+  divLine.appendChild(line);
   form.append(labelEmail, inputEmail, labelPassword, inputPassword, buttonLogin);
-  divContainer.append(divLogo, divHeader, divForm, buttonGoogle, register, registerhref);
+  form.append(divLine, buttonGoogle, register);
+  register.appendChild(registerhref);
+  divForm.appendChild(form);
+  container.append(divForm);
 
+  // Asignando funcionalidad
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const emailValue = inputEmail.value;
-    const passwordValue = inputPassword.value;
-    // console.log(email, password);
-    if (emailValue === '' || passwordValue === '') {
-      Toastify({
-        text: 'Completa el campo',
-        duration: 700,
-        style: {
-          background: 'linear-gradient(to right, #f2a71b, #bf522a)',
-        },
-      }).showToast();
-    } else if (emailValue && passwordValue) {
-      loginEmail(emailValue, passwordValue)
+    const emailUser = form.email.value;
+    const passwordUser = form.password.value;
+    console.log(emailUser, passwordUser);
+
+    if (emailUser === '' || passwordUser === '') {
+      showMessage('Completa tus datos');
+    } else if (emailUser && passwordUser) {
+      // esta parte parece redundante
+      loginEmail(emailUser, passwordUser)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
+          getCurrentUser(user, null);
+          console.log('autenticado', getCurrentUser());
           if (!user.emailVerified) {
+            showMessage('Por favor verifica el email');
             // alert('Por favor verifica el email');
-            Toastify({
-              text: 'Por favor verifica el email',
-              duration: 2000,
-              style: {
-                background: 'linear-gradient(to right, #F2BC57, #F24495)',
-              },
-            }).showToast();
             return;
           }
           onNavigate('/wall');
@@ -92,55 +90,40 @@ export const Login = (onNavigate) => {
         .catch((error) => {
           const errorCode = error.code;
           if (errorCode === 'auth/invalid-email') {
-            Toastify({
-              text: 'Correo no válido',
-              duration: 700,
-              style: {
-                background: 'linear-gradient(to right, #f2a71b, #bf522a)',
-              },
-            }).showToast();
-          } else if (errorCode === 'auth/wrong-password') {
-            Toastify({
-              text: 'Contraseña incorrecta',
-              duration: 700,
-              style: {
-                background: 'linear-gradient(to right, #f2a71b, #bf522a)',
-              },
-            }).showToast();
+            showMessage('La contraseña es incorrecta');
+          } else if (errorCode === 'auth/email-already-exists') {
+            showMessage('El email ya está en uso');
           }
         });
     }
   });
 
   buttonGoogle.addEventListener('click', () => {
-    const userGoogle = GoogleAuthProvider;
-    // const authUserGoogle = window.history.pushState(onNavigate('/wall'));
-
-    authGoogle(userGoogle)
+    authGoogle()
       .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        console.log(credential);
-        // The signed-in user info.
+        const token = credential.accessToken;
+        console.log(token);
         const user = result.user;
-        console.log(user);
-        // ...
-        // return authUserGoogle;
+        console.log('autenticado Google', user);
+        onNavigate('/wall');
+
+        // alert('Por favor verifica el email');
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
         console.log(errorCode);
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        // The email of the user's account used.
-        const email = error.customData.email;
-        console.log(email);
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(credential);
+        // const errorMessage = error.message;
+        // console.log(errorMessage);
+        // // The email of the user's account used.
+        // const email = error.customData.email;
+        // console.log(email);
+        // // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // console.log(credential);
         // ...
       });
   });
   registerhref.addEventListener('click', () => onNavigate('/register'));
-  return divContainer;
+  return container;
 };
