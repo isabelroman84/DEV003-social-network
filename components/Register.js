@@ -1,7 +1,5 @@
 import { showMessage } from '../helpers/templates.js';
-import { Header } from './Header.js';
-import { registerUser, sendEmail } from '../lib/service.js';
-// import { auth } from '../lib/config.js';
+import { registerUser, sendEmail } from '../lib/serviceAuth';
 
 export const Register = (onNavigate) => {
   // Creando estructura
@@ -29,46 +27,55 @@ export const Register = (onNavigate) => {
 
   // Dando contenido a los elementos
   title.textContent = 'Regístrate';
+  inputName.name = 'nameuser';
   inputName.placeholder = 'Ingresa un nombre de usuario';
+  inputName.autocomplete = 'off';
+  inputEmail.name = 'email';
   inputEmail.placeholder = 'usuario@usuario.com';
   inputEmail.type = 'email';
+  inputEmail.autocomplete = 'off';
+  inputPassword.name = 'password';
   inputPassword.placeholder = 'Crea una contraseña';
   inputPassword.type = 'password';
+  inputPassword.autocomplete = 'off';
+  inputRePassword.name = 'repeat';
   inputRePassword.placeholder = 'Repite tu contraseña';
   inputRePassword.type = 'password';
+  inputRePassword.autocomplete = 'off';
   buttonRegister.textContent = 'Crea tu cuenta';
+  buttonRegister.type = 'submit';
   iconBack.src = '../assets/img/back.png';
 
   // Asignando padres e hijos
   form.append(title, inputName, inputEmail);
   form.append(inputPassword, inputRePassword, buttonRegister);
   divForm.appendChild(form);
-  container.append(Header(), iconBack, divForm);
+  container.append(iconBack, divForm);
 
   // Asignando funcionalidad
   iconBack.addEventListener('click', () => {
     onNavigate('/login');
   });
 
-  buttonRegister.addEventListener('click', (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     // console.log('click');
-    const nameValue = inputName.value;
-    const emailValue = inputEmail.value;
-    const passwordValue = inputPassword.value;
-    const repeatPassValue = inputRePassword.value;
-    // console.log(nameValue, emailValue, passwordValue, repeatPassValue);
+    const nameUser = form.nameuser.value;
+    const emailUser = form.email.value;
+    const passwordUser = form.password.value;
+    const repeatPass = form.repeat.value;
+    // console.log(nameUser, emailUser, passwordUser, repeatPass);
 
-    if (nameValue === '') {
+    if (nameUser === '') {
       showMessage('Ingresa un nombre de usuario');
-    } else if (passwordValue !== repeatPassValue) {
+    } else if (passwordUser !== repeatPass) {
       showMessage('La contraseña no coincide');
-    } else if (nameValue && emailValue && passwordValue && repeatPassValue) {
-      registerUser(emailValue, passwordValue)
+    } else if (nameUser && emailUser && passwordUser && repeatPass) {
+      registerUser(emailUser, passwordUser)
         .then((userCredential) => {
-        // console.log(auth.currentUser);
           const user = userCredential.user;
-          console.log(user);
+          // console.log('Este es current -->', auth.currentUser);
+          console.log('Este es user -->', user);
           return sendEmail();
         })
         .then(() => {
@@ -79,10 +86,13 @@ export const Register = (onNavigate) => {
         })
         .catch((error) => {
           const errorCode = error.code;
-          console.log(errorCode);
+          // console.log(errorCode);
           switch (errorCode) {
             case 'auth/invalid-email':
               showMessage('El email no es válido');
+              break;
+            case 'auth/user-not-found':
+              showMessage('Todavía no se ha registrado');
               break;
             case 'auth/email-already-exists':
               showMessage('El correo ya está registrado');

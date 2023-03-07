@@ -1,5 +1,3 @@
-import { Header } from './Header.js';
-
 export const Welcome = (onNavigate) => {
   // Creando estructura
   const container = document.createElement('div');
@@ -19,7 +17,7 @@ export const Welcome = (onNavigate) => {
 
   // Asignando padres e hijos
   divText.append(textW, buttonWelcome);
-  container.append(Header(), divText);
+  container.append(divText);
 
   buttonWelcome.addEventListener('click', () => {
     onNavigate('/login');

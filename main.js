@@ -1,10 +1,5 @@
-import { authUser } from './lib/service.js';
-import { Header } from './components/Header.js';
-import { onNavigate } from './router.js';
+// import { authUser } from './lib/serviceAuth.js';
+import './router.js';
 
-const root = document.getElementById('root');
-
-root.appendChild(Header());
-
-onNavigate();
-authUser();
+// no parece estar funcionando
+// authUser();

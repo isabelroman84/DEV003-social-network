@@ -2,6 +2,7 @@ import { Welcome } from './components/Welcome.js';
 import { Register } from './components/Register.js';
 import { Login } from './components/Login.js';
 import { Wall } from './components/Wall.js';
+import { Header } from './components/Header.js';
 
 const root = document.getElementById('root');
 
@@ -27,9 +28,12 @@ export const onNavigate = (pathname) => {
   while (root.firstChild) {
     root.removeChild(root.firstChild);
   }
+
+  root.appendChild(Header());
   root.appendChild(routes[pathname](onNavigate)); // () para que se ejecute
 };
 
+root.appendChild(Header());
 root.appendChild(routes[window.location.pathname](onNavigate));
 
 // Regresando a vista anterior con evento postate que toma info de history.pushstate()
@@ -38,5 +42,6 @@ window.onpopstate = () => {
   while (root.firstChild) {
     root.removeChild(root.firstChild);
   }
+  root.appendChild(Header());
   root.append(routes[window.location.pathname](onNavigate));
 };
