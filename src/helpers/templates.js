@@ -5,7 +5,7 @@ import Toastify from 'toastify-js';
 export function showMessage(message) {
   Toastify({
     text: message,
-    duration: 5000,
+    duration: 3000,
     style: {
       // background: type === 'success' ? '#49BF9E' : 'linear-gradient(to right, #F24495, #F2BC57)',
       background: 'linear-gradient(to right, #F24495, #F2BC57)',

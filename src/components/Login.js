@@ -1,7 +1,8 @@
-import { GoogleAuthProvider } from 'firebase/auth';
-import { Header } from './Header.js';
+// import { GoogleAuthProvider } from 'firebase/auth';
 import { showMessage } from '../helpers/templates.js';
-import { authGoogle, loginEmail } from '../lib/service';
+import {
+  authGoogle, getCurrentUser, GoogleAuthProvider, loginEmail,
+} from '../lib/serviceAuth.js';
 
 export const Login = (onNavigate) => {
   // Creando estructura
@@ -40,10 +41,15 @@ export const Login = (onNavigate) => {
   inputEmail.type = 'email';
   labelEmail.textContent = 'Email';
   inputEmail.placeholder = 'usuario@usuario.com';
+  inputEmail.name = 'email';
+  inputEmail.autocomplete = 'off';
   inputPassword.type = 'password';
   labelPassword.textContent = 'Contraseña';
   inputPassword.placeholder = '**************';
+  inputPassword.name = 'password';
+  inputPassword.autocomplete = 'off';
   buttonLogin.textContent = 'Ingresar';
+  buttonLogin.type = 'submit';
   buttonGoogle.textContent = 'Ingresar con Google';
   register.textContent = '¿Aún no tienes una cuenta?';
   registerhref.setAttribute('href', '/register');
@@ -56,20 +62,24 @@ export const Login = (onNavigate) => {
   form.append(divLine, buttonGoogle, register);
   register.appendChild(registerhref);
   divForm.appendChild(form);
-  container.append(Header(), divForm);
+  container.append(divForm);
 
-  buttonLogin.addEventListener('click', (e) => {
+  // Asignando funcionalidad
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const emailValue = inputEmail.value;
-    const passwordValue = inputPassword.value;
-    // console.log(email, password);
-    if (emailValue === '' || passwordValue === '') {
-      showMessage('Completa el campo', 'error');
-    } else if (emailValue && passwordValue) {
-      loginEmail(emailValue, passwordValue)
+    const emailUser = form.email.value;
+    const passwordUser = form.password.value;
+    console.log(emailUser, passwordUser);
+
+    if (emailUser === '' || passwordUser === '') {
+      showMessage('Completa tus datos');
+    } else if (emailUser && passwordUser) {
+      // esta parte parece redundante
+      loginEmail(emailUser, passwordUser)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
+          getCurrentUser(user, null);
+          console.log('autenticado', getCurrentUser());
           if (!user.emailVerified) {
             showMessage('Por favor verifica el email');
             // alert('Por favor verifica el email');
@@ -81,37 +91,36 @@ export const Login = (onNavigate) => {
           const errorCode = error.code;
           if (errorCode === 'auth/invalid-email') {
             showMessage('La contraseña es incorrecta');
+          } else if (errorCode === 'auth/email-already-exists') {
+            showMessage('El email ya está en uso');
           }
         });
     }
   });
 
   buttonGoogle.addEventListener('click', () => {
-    const userGoogle = GoogleAuthProvider;
-    // const authUserGoogle = window.history.pushState(onNavigate('/wall'));
-
-    authGoogle(userGoogle)
+    authGoogle()
       .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        console.log(credential);
-        // The signed-in user info.
+        const token = credential.accessToken;
+        console.log(token);
         const user = result.user;
-        console.log(user);
-        // ...
-        // return authUserGoogle;
+        console.log('autenticado Google', user);
+        onNavigate('/wall');
+
+        // alert('Por favor verifica el email');
       }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
         console.log(errorCode);
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        // The email of the user's account used.
-        const email = error.customData.email;
-        console.log(email);
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(credential);
+        // const errorMessage = error.message;
+        // console.log(errorMessage);
+        // // The email of the user's account used.
+        // const email = error.customData.email;
+        // console.log(email);
+        // // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // console.log(credential);
         // ...
       });
   });
