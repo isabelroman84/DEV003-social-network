@@ -1,8 +1,5 @@
-// import { GoogleAuthProvider } from 'firebase/auth';
 import { showMessage } from '../helpers/templates.js';
-import {
-  authGoogle, getCurrentUser, GoogleAuthProvider, loginEmail,
-} from '../lib/serviceAuth.js';
+import { authGoogle, authUser, loginEmail } from '../lib/serviceAuth.js';
 
 export const Login = (onNavigate) => {
   // Creando estructura
@@ -29,6 +26,7 @@ export const Login = (onNavigate) => {
   form.classList.add('form');
   labelEmail.classList.add('label');
   labelPassword.classList.add('label');
+  // labelPassword.classList.add('colorcito');
   inputEmail.classList.add('input');
   inputPassword.classList.add('input');
   buttonLogin.classList.add('btn');
@@ -54,7 +52,7 @@ export const Login = (onNavigate) => {
   register.textContent = '¿Aún no tienes una cuenta?';
   registerhref.setAttribute('href', '/register');
   registerhref.textContent = 'Regístrate';
-  buttonGoogle.src = '../assets/img/google_1x.png';
+  buttonGoogle.src = '../assets/img/google_2x.png';
 
   // Asignando padres e hijos
   divLine.appendChild(line);
@@ -69,20 +67,21 @@ export const Login = (onNavigate) => {
     e.preventDefault();
     const emailUser = form.email.value;
     const passwordUser = form.password.value;
-    console.log(emailUser, passwordUser);
+    // console.log(emailUser, passwordUser);
 
     if (emailUser === '' || passwordUser === '') {
       showMessage('Completa tus datos');
     } else if (emailUser && passwordUser) {
-      // esta parte parece redundante
       loginEmail(emailUser, passwordUser)
         .then((userCredential) => {
-          const user = userCredential.user;
-          getCurrentUser(user, null);
-          console.log('autenticado', getCurrentUser());
-          if (!user.emailVerified) {
+          const userAuth = userCredential.user;
+          localStorage.setItem('user', JSON.stringify(userAuth));
+
+          authUser(userAuth);
+          // No puedo ver en consola, veo que está logueado por console de serviceAuth
+          if (!userAuth.emailVerified) {
             showMessage('Por favor verifica el email');
-            // alert('Por favor verifica el email');
+            // sin el return permite almacenar mensajes vacíos
             return;
           }
           onNavigate('/wall');
@@ -101,16 +100,16 @@ export const Login = (onNavigate) => {
   buttonGoogle.addEventListener('click', () => {
     authGoogle()
       .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        console.log(token);
+      // const credential = GoogleAuthProvider.credentialFromResult(result);
+      // const token = credential.accessToken;
+      // console.log(token);
         const user = result.user;
         console.log('autenticado Google', user);
+        localStorage.setItem('user', JSON.stringify(user));
         onNavigate('/wall');
 
         // alert('Por favor verifica el email');
       }).catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code;
         console.log(errorCode);
         // const errorMessage = error.message;
@@ -125,5 +124,6 @@ export const Login = (onNavigate) => {
       });
   });
   registerhref.addEventListener('click', () => onNavigate('/register'));
+
   return container;
 };

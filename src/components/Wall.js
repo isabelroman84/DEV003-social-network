@@ -1,33 +1,38 @@
+// import { async } from 'regenerator-runtime';
 import { showMessage } from '../helpers/templates.js';
-import { authUser, logOut } from '../lib/serviceAuth.js';
-import { createPost } from '../lib/serviceFirestore';
-
-let userWall = '';
-let userIdWall = '';
-
-authUser((user) => {
-  console.log(user);
-  userWall = user.displayname;
-  userIdWall = user.uid;
-});
+import { logOut } from '../lib/serviceAuth.js';
+import {
+  createPost, deleteComment, getComment, printEvent, updateComment,
+} from '../lib/serviceFirestore';
 
 export const Wall = (onNavigate) => {
+  /* En login guardé el user en el localStorage y aquí puedo traerlo porque
+  lo necesito para activar los botones al dueño de la publicación
+  */
+  const currentUserId = JSON.parse(localStorage.getItem('user')).uid;
+
   // Creando estructura
   const container = document.createElement('div');
   const divPost = document.createElement('div');
+  const comments = document.createElement('section');
   const title = document.createElement('h3');
   const form = document.createElement('form');
   const post = document.createElement('textarea');
   const buttonPost = document.createElement('button');
+  const buttonUpdateComment = document.createElement('button');
+  const buttonCancelEdit = document.createElement('button');
   const iconLogout = document.createElement('img');
 
   // Asignando clases
   container.classList.add('container');
   title.classList.add('title');
   divPost.classList.add('div-post');
+  comments.classList.add('comments');
   form.classList.add('form-post');
   post.classList.add('post');
   buttonPost.classList.add('btn-post');
+  buttonUpdateComment.classList.add('btn-update');
+  buttonCancelEdit.classList.add('btn-cancel');
   iconLogout.classList.add('icon-back');
 
   // Dando contenido a los elementos
@@ -36,67 +41,132 @@ export const Wall = (onNavigate) => {
   post.maxLength = 300;
   post.autocomplete = 'off';
   post.placeholder = 'Agrega aquí información de tu evento (fecha, lugar, valor)';
-  buttonPost.textContent = 'Postear';
+  buttonPost.textContent = 'Invita';
   buttonPost.type = 'submit';
+  buttonUpdateComment.textContent = 'Actualizar';
+  buttonCancelEdit.textContent = 'Cancelar';
   iconLogout.src = '../assets/img/logout.png';
 
   // Asignando padres e hijos
-  form.append(post, buttonPost);
+  form.append(post, buttonPost, buttonUpdateComment, buttonCancelEdit);
   divPost.append(form);
-  container.append(iconLogout, title, divPost);
+  container.append(iconLogout, title, divPost, comments);
 
   // Asignando funcionalidad
-
-  // getPost();
-
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const postUser = form.message.value;
-    console.log('Este es el post-->', postUser);
-
+    // console.log('Este es el post-->', postUser);
     if (postUser === '') {
       showMessage('Ingresa la descripción de tu evento');
       return;
     }
-    // firestore ejemplo
-    // try {
-    //   const docRef = await addDoc(collection(db, "users"), {
-    //     first: "Ada",
-    //     last: "Lovelace",
-    //     born: 1815
-    //   });
-    //   console.log("Document written with ID: ", docRef.id);
-    // } catch (e) {
-    //   console.error("Error adding document: ", e);
-    // }
 
-    // nuestro servicio
-    // export const createPost = (post) => addDoc(collection(db, 'posts'), post);
+    createPost(postUser)
+      .then((docRef) => {
+        showMessage('Tu evento se ha creado con éxito');
+        console.log('Código del documento ', docRef.id);
+        form.reset();
+      }).catch(() => {
+        showMessage('Tu evento no pudo publicarse. Inténtalo de nuevo');
+      });
+  });
+  // ----- Mostrando evento en la interfaz -----
+  printEvent((querySnapshot) => {
+    // console.log('Esta es la consulta', querySnapshot);
+    let showEvent = '';
+    querySnapshot.forEach((doc) => {
+      // console.log('¿Qué se ve?', doc.id, ' => ', doc.data().userId === currentUserId);
+      const dataBase = doc.data();
+      const commentUser = doc.data().userId;
 
-    createPost({
-      postUser,
-    }).then((docRef) => {
-      // que hacemos cuando se crea el post exitosamente?
-      showMessage('Tu evento se ha creado con éxito');
+      // const eventDate = dataBase.today.toDate();
+      const formatEvent = new Date().toLocaleDateString();
+      // const formatEvent = new Date(eventDate).toLocaleDateString();
+      // const formatEvent = eventDate.toLocaleDateString('es-ES', {
+      //   day: '2-digit',
+      //   month: '2-digit',
+      //   year: '2-digit',
+      // });
+      const eventWriter = commentUser === currentUserId;
+      // console.log('¿A quién le corresponde el comentario?', eventWriter);
+      // console.log('Este es eventDate', eventDate);
+      // console.log('Este es formatDate', formatEvent);
+      showEvent += `
+      <div class="data-user" data-id="${doc.id}">
+        <div class="header-post">
+          <h4>${dataBase.name}</h4>
+            <time>${formatEvent}</time>
+        </div>
+        <div class="input-post">
+          <p id="input-edit">${dataBase.post}</p>
+        </div>
+        <div class="actions">
+          ${eventWriter ? `<img src="../assets/img/edit.png" alt="edit" data-id="${doc.id}" class="btn-edit none">' ` : ''}
+          ${eventWriter ? `'<img src="../assets/img/delete.png" alt="btn-delete" data-id="${doc.id}"class="btn-delete none">' ` : ''}
+        </div>
+      </div>
+          `;
+    });
 
-      console.log('Document written with ID: ', docRef.id);
-      console.log('Document written with ID: ', postUser);
+    comments.innerHTML = showEvent;
+    // console.log(comments);
 
-      // limpiar el formulario
-      form.reset();
-      // mostrar un mensaje de que el post se creo exitosamente
-    }).catch(() => {
-      // que hacemos cuando hay un error durante la creacion del post?
-      showMessage('Tu evento no pudo publicarse. Inténtalo de nuevo');
+    // ----- Eliminando las publicaciones -----
+    const btnsDelete = comments.querySelectorAll('.btn-delete');
+    // console.log(btnsDelete);
+    btnsDelete.forEach((btn) => {
+      btn.addEventListener('click', ({ target: { dataset } }) => {
+        // console.log('Borrando', dataset.id);
+        const confirmDelete = confirm('¿Realmente desea eliminar esta publicación?');
+        if (confirmDelete) {
+          deleteComment(dataset.id);
+          showMessage('Su mensaje ha sido eliminado con éxito');
+        }
+      });
+    });
 
-      // console.error("Error adding document: ", e);
+    // ----- Editando las publicaciones -----
+    // consulta a firebase con commentUser
+    let contentInputEvent;
+    let dataComment;
+    const btnsEdit = comments.querySelectorAll('.btn-edit');
+    // console.log(btnsEdit);
+    contentInputEvent = form.querySelector('.post');
+    // console.log(contentInputEvent);
 
-      // mostrar un mensaje de que el post no se pudo crear por un error
+    btnsEdit.forEach((btn) => {
+      btn.addEventListener('click', async ({ target: { dataset } }) => {
+        // console.log('Identificador Firestore', dataset.id);
+        const getCommentUser = await getComment(dataset.id);
+        // console.log('Trae doc(obj)', commentUser);
+        dataComment = getCommentUser.data();
+        // console.log('Convirtiendo a datos', dataComment);
+        contentInputEvent.value = dataComment.post;
+        buttonUpdateComment.style.display = 'block';
+        buttonCancelEdit.style.display = 'block';
+        buttonPost.style.display = 'none';
+      });
+    });
+
+    const btnUpdateComment = form.querySelector('.btn-update');
+    contentInputEvent = form.querySelector('.post');
+
+    btnUpdateComment.addEventListener('click', () => {
+      // let idComment = document.querySelector(`[data-id="${doc.id}"]`);
+      console.log('Actualizando', btnUpdateComment);
+      console.log('Objeto', dataComment);
+      updateComment(btnID, dataComment.post);
+      buttonUpdateComment.style.display = 'block';
+      buttonCancelEdit.style.display = 'block';
+      buttonPost.style.display = 'none';
+      dataComment.post = '';
     });
   });
 
   iconLogout.addEventListener('click', () => {
+    localStorage.clear();
     logOut().then(() => {
       // Sign-out successful.
     }).catch((error) => {

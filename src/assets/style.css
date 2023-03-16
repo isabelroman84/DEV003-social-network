@@ -5,6 +5,11 @@ html {
       padding: 0;
       font-family: 'Open Sans', sans-serif; 
       box-sizing: border-box;
+      --primary-color: #381E40;
+      --container: #eceff1; 
+      --button: #F2BC57;
+      --secundary-color: #49BF9E;
+      --inputs: #FFFF;
     }
 
     /* Para que todos los elementos del html lo hereden */
@@ -26,19 +31,19 @@ img {
     height: auto;
 }
 
-.grid-fluid {
-    margin: 1rem auto;
-    max-width: 90%;
-    display: grid;
+/* .grid-fluid { */
+    /* margin: 1rem auto; */
+    /* max-width: 90%; */
+    /* display: grid; */
     /* dependiendo de cuántos elementos tenga en grid genere ese número de columnas (que se pueda ajustar
     al número de columnas */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
+    /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
+/* } */
 
 .header {
     display: flex;
     flex-direction: column;
-    background: #FFFF;
+    background: var(--inputs);
     align-items: center;
     width: 100%;
     position: sticky;
@@ -52,10 +57,10 @@ img {
 /* Vista welcome */
 .container{
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    background: #381E40;
+    background: var(--primary-color);
     /* border: solid red */
    }
 
@@ -69,7 +74,7 @@ img {
 
 .text-w {
     margin: 55% 0;
-    color: #381E40;
+    color: var(--primary-color);
     font-style: italic;
    }
 
@@ -81,15 +86,15 @@ img {
     border-radius: 0.4rem;
     font-weight: 700;
     padding: 0 6.5rem;
-    color: #381E40;
+    color: var(--primary-color);
     border: none;
     box-shadow: 0 .5rem 1rem rgba(93, 241, 126, 0.15)!important;
-    background: #F2BC57;
+    background: var(--button);
    }
    
 .btn-w:hover {
-    background: #49BF9E;
-    color: #FFFF;
+    background: var(--secundary-color);
+    color: var(--inputs);
    }
    
 /* Vista Register */
@@ -108,7 +113,7 @@ img {
 .container {
     width: 100%;
     height: calc(100vh-200px);
-    background: #381E40;
+    background: var(--primary-color);
    }
 
 .form-register {
@@ -120,7 +125,7 @@ img {
    }
 
 .form-register h2, h3 {
-    color: #FFFF;
+    color: var(--inputs);
     margin: 0.4rem 2rem;
    }
    
@@ -134,17 +139,17 @@ img {
     padding: 1rem;
     margin: 2rem 1rem;
     border-radius: 0.4rem;
-    color: #381E40;
+    color: var(--primary-color);
     font-size: 1.5rem;
     font-weight: 700;
     border: none;
     box-shadow: 0 .5rem 1rem rgba(241, 93, 229, 0.15)!important;
-    background: #F2BC57;
+    background: var(--button);
    }
 
 .btn:hover {
-    background: #49BF9E;
-    color: #FFFF;
+    background: var(--secundary-color);
+    color: var(--inputs);
    }
 
 /* Vista Login */
@@ -157,7 +162,7 @@ img {
    }
 
 .label {
-    color: #FFFF;
+    color: var(--inputs);
     margin: 0.1rem 1.5rem;
 }
 
@@ -167,7 +172,7 @@ img {
 }
 
 .hr {
-    background: #49BF9E;
+    background: var(--secundary-color);
     margin: 0 -0.8rem;
     height: 0.2rem;
     width: 20rem;
@@ -178,18 +183,18 @@ img {
     flex-direction: column;
     text-align: center;
     font-size: 20px;
-    color: #FFFF;
+    color: var(--inputs);
 }
 
 .href{
-    color: #F2BC57;
+    color: var(--button);
     text-decoration: none;
     font-weight: 600;
     font-size: 22px;
 }
 
 /* Vista Wall */
-.div-post {
+.div-post{
     display: flex;
     flex-direction: column;
     margin: 1rem auto;
@@ -202,7 +207,7 @@ img {
     margin: 0.5rem auto;
     padding: 1rem;
     width: 90%;
-    background-color: #eceff1;
+    background-color: var(--container);
 }
 
 .post {
@@ -213,38 +218,95 @@ img {
     height: 10rem;
 }
 
-.btn-post {
+.btn-post,
+.btn-update,
+.btn-cancel {
     border-radius: 0.4rem;
-    color: #381E40;
+    color: var(--primary-color);
     font-weight: 400;
     border: none;
-    background: #F2BC57; 
+    background: var(--button); 
     padding: 0.4rem;
     margin: 0.4rem 0;
     margin-bottom: 0.1%;
-    /* width: 6rem;
-    height: 2rem; 
-    margin-left: 70%; 
-    margin-bottom: 2%;  */
 }
 
+.btn-update, .btn-cancel {
+    display: none;
+}
+.comments {
+    /* border: solid red; */
+    margin: 0.5rem auto;
+    /* padding: 0.1rem; */
+    width: 90%;
+    /* background-color: var(--container); */
+}
+
+.data-user {
+    /* border: solid yellow; */
+    margin-bottom: 2rem;
+    background: var(--container);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.header-post {
+    /* border: solid blue; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: -1rem 1.5rem;
+}
+
+.data-user h4 {
+    color: var(--primary-color);
+    letter-spacing: 0.3rem;
+    font-size: 20px;
+}
+
+time {
+    color: var(--primary-color);
+    margin: 1.8rem 2rem;
+    font-size: 18px;
+}
+
+.input-post {
+    background: var(--inputs);
+    padding: 0.5rem;
+    margin: 0.5rem 1rem;
+    color: var(--primary-color);
+    font-size: 24px;
+}
+
+.actions {
+    /* border: solid aqua; */
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    padding: 0.8rem;
+}
+
+.icon {
+    width: 40px;
+}
 /* .btn-cancel,
 .btn-update {
     display: none;
 } */
 
-@media only screen and (min-width: 1024px) and (max-width: 1728px){
+@media screen and (min-width: 600px) and (max-width: 1860px){
     .div-text {
         background-image: url('img/ciudad.png');
         background-size: cover;
         text-align: center;
         width: 100%;
-        height: 100vh;
+        height: 100%;
        }
     
     .text-w {
-        margin: 55% 7%;
-        color: #381E40;
+        margin: 5% 7%;
+        color: var(--primary-color);
         font-style: italic;
         font-size: 50px;
         font-weight: 900;
@@ -278,9 +340,9 @@ img {
 
        .btn {
         padding: 2rem;
-        margin: 2rem 13rem;
+        margin: 2rem 9rem;
         border-radius: 1rem;
-        color: #381E40;
+        color: var(--primary-color);
         font-size: 2.5rem;
         font-weight: 700;
        }
@@ -291,7 +353,7 @@ img {
         }
 
         .hr {
-        margin: 2rem 6rem;
+        margin: 2rem -0.5rem;
         height: 0.2rem;
         width: 45rem;
         }
@@ -320,7 +382,7 @@ img {
         .icon-back {
             width: 100px;
             height: 100px;
-            margin: 2rem 50rem;
+            margin: 2rem 40rem;
            }
         
         .title {

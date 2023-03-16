@@ -12,3 +12,18 @@ export function showMessage(message) {
     },
   }).showToast();
 }
+
+// export function showMessage(message, element) {
+//   const divError = document.createElement('div');
+//   const alertError = document.createElement('p');
+
+//   divError.classList.add('div-error');
+//   alertError.classList.add('message');
+
+//   alertError.innerHTML = message;
+
+//   divError.appendChild(alertError);
+//   divError.insertAdjacentElement('beforeend', element);
+
+//   return alertError;
+// }

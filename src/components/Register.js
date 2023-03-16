@@ -1,5 +1,7 @@
 import { showMessage } from '../helpers/templates.js';
-import { registerUser, sendEmail } from '../lib/serviceAuth';
+import {
+  auth, registerUser, sendEmail, updateName,
+} from '../lib/serviceAuth';
 
 export const Register = (onNavigate) => {
   // Creando estructura
@@ -43,7 +45,7 @@ export const Register = (onNavigate) => {
   inputRePassword.type = 'password';
   inputRePassword.autocomplete = 'off';
   buttonRegister.textContent = 'Crea tu cuenta';
-  buttonRegister.type = 'submit';
+  // buttonRegister.type = 'submit';
   iconBack.src = '../assets/img/back.png';
 
   // Asignando padres e hijos
@@ -73,16 +75,14 @@ export const Register = (onNavigate) => {
     } else if (nameUser && emailUser && passwordUser && repeatPass) {
       registerUser(emailUser, passwordUser)
         .then((userCredential) => {
-          const user = userCredential.user;
-          // console.log('Este es current -->', auth.currentUser);
-          console.log('Este es user -->', user);
-          return sendEmail();
-        })
-        .then(() => {
-          showMessage('Verifica tu email');
-          // console.log(res);
-          // alert('Verifica tu email');
-          onNavigate('/login');
+          console.log('Estas son las credenciales -->', userCredential.user);
+          sendEmail().then(() => {
+            updateName(nameUser).then(() => {
+              showMessage('Verifica tu email');
+              // alert('Verifica tu email');
+              onNavigate('/login');
+            });
+          });
         })
         .catch((error) => {
           const errorCode = error.code;
