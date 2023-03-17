@@ -103,8 +103,8 @@ export const Wall = (onNavigate) => {
           <p id="input-edit">${dataBase.post}</p>
         </div>
         <div class="actions">
-          ${eventWriter ? `<img src="../assets/img/edit.png" alt="edit" data-id="${doc.id}" class="btn-edit none">' ` : ''}
-          ${eventWriter ? `'<img src="../assets/img/delete.png" alt="btn-delete" data-id="${doc.id}"class="btn-delete none">' ` : ''}
+          ${eventWriter ? `<img src="../assets/img/edit.png" alt="edit" data-id="${doc.id}" class="btn-edit none"> ` : ''}
+          ${eventWriter ? `<img src="../assets/img/delete.png" alt="btn-delete" data-id="${doc.id}"class="btn-delete none">` : ''}
         </div>
       </div>
           `;
@@ -119,7 +119,7 @@ export const Wall = (onNavigate) => {
     btnsDelete.forEach((btn) => {
       btn.addEventListener('click', ({ target: { dataset } }) => {
         // console.log('Borrando', dataset.id);
-        const confirmDelete = confirm('¿Realmente desea eliminar esta publicación?');
+        const confirmDelete = confirm('¿Realmente deseas eliminar esta publicación?');
         if (confirmDelete) {
           deleteComment(dataset.id);
           showMessage('Su mensaje ha sido eliminado con éxito');
@@ -146,6 +146,7 @@ export const Wall = (onNavigate) => {
         contentInputEvent.value = dataComment.post;
         buttonUpdateComment.style.display = 'block';
         buttonCancelEdit.style.display = 'block';
+        buttonUpdateComment.id = dataset.id;
         buttonPost.style.display = 'none';
       });
     });
@@ -153,15 +154,17 @@ export const Wall = (onNavigate) => {
     const btnUpdateComment = form.querySelector('.btn-update');
     contentInputEvent = form.querySelector('.post');
 
-    btnUpdateComment.addEventListener('click', () => {
+    btnUpdateComment.addEventListener('click', (e) => {
+      e.preventDefault();
       // let idComment = document.querySelector(`[data-id="${doc.id}"]`);
       console.log('Actualizando', btnUpdateComment);
       console.log('Objeto', dataComment);
-      updateComment(btnID, dataComment.post);
+      updateComment(buttonUpdateComment.id, post.value);
       buttonUpdateComment.style.display = 'block';
       buttonCancelEdit.style.display = 'block';
       buttonPost.style.display = 'none';
       dataComment.post = '';
+      post.value = '';
     });
   });
 

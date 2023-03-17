@@ -7,6 +7,7 @@ export const Register = (onNavigate) => {
   // Creando estructura
   const container = document.createElement('div');
   const divForm = document.createElement('div');
+  const divError = document.createElement('div');
   const title = document.createElement('h2');
   const form = document.createElement('form');
   const inputName = document.createElement('input');
@@ -19,6 +20,7 @@ export const Register = (onNavigate) => {
   // Asignando clases
   container.classList.add('container');
   divForm.classList.add('div-form');
+  divError.classList.add('div-error');
   form.classList.add('form-register');
   inputName.classList.add('input');
   inputEmail.classList.add('input');
@@ -32,6 +34,7 @@ export const Register = (onNavigate) => {
   inputName.name = 'nameuser';
   inputName.placeholder = 'Ingresa un nombre de usuario';
   inputName.autocomplete = 'off';
+  inputName.id = 'entry-name';
   inputEmail.name = 'email';
   inputEmail.placeholder = 'usuario@usuario.com';
   inputEmail.type = 'email';
@@ -52,11 +55,17 @@ export const Register = (onNavigate) => {
   form.append(title, inputName, inputEmail);
   form.append(inputPassword, inputRePassword, buttonRegister);
   divForm.appendChild(form);
-  container.append(iconBack, divForm);
+  container.append(iconBack, divForm, divError);
 
   // Asignando funcionalidad
   iconBack.addEventListener('click', () => {
     onNavigate('/login');
+  });
+
+  const entryName = form.querySelector('#entry-name');
+  entryName.addEventListener('input', () => {
+    const upperText = entryName.value.toUpperCase();
+    entryName.value = upperText;
   });
 
   form.addEventListener('submit', (e) => {
@@ -68,8 +77,8 @@ export const Register = (onNavigate) => {
     const repeatPass = form.repeat.value;
     // console.log(nameUser, emailUser, passwordUser, repeatPass);
 
-    if (nameUser === '') {
-      showMessage('Ingresa un nombre de usuario');
+    if (nameUser === '' && nameUser.length < 5) {
+      showMessage('Ingresa un nombre de usuario válido');
     } else if (passwordUser !== repeatPass) {
       showMessage('La contraseña no coincide');
     } else if (nameUser && emailUser && passwordUser && repeatPass) {
