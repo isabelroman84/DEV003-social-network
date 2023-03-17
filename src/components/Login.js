@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { showMessage } from '../helpers/templates.js';
 import {
   authGoogle, authUser, GoogleAuthProvider, loginEmail,
@@ -28,7 +29,6 @@ export const Login = (onNavigate) => {
   form.classList.add('form');
   labelEmail.classList.add('label');
   labelPassword.classList.add('label');
-  // labelPassword.classList.add('colorcito');
   inputEmail.classList.add('input');
   inputPassword.classList.add('input');
   buttonLogin.classList.add('btn');
@@ -103,6 +103,7 @@ export const Login = (onNavigate) => {
     authGoogle()
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
+        // eslint-disable-next-line no-unused-vars
         const token = credential.accessToken;
         // console.log(token);
         const user = result.user;

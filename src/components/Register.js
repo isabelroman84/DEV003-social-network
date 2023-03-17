@@ -19,6 +19,7 @@ export const Register = (onNavigate) => {
   container.classList.add('container');
   divForm.classList.add('div-form');
   divError.classList.add('div-error');
+  title.classList.add('title');
   form.classList.add('form-register');
   inputName.classList.add('input');
   inputEmail.classList.add('input');

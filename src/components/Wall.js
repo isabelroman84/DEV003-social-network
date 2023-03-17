@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-unused-vars */
 // import { async } from 'regenerator-runtime';
 import { showMessage } from '../helpers/templates.js';
 import { logOut } from '../lib/serviceAuth.js';
@@ -16,6 +18,7 @@ export const Wall = (onNavigate) => {
   lo necesito para activar los botones al dueño de la publicación
   */
   const currentUserId = JSON.parse(localStorage.getItem('user')).uid;
+  const displayNameUser = JSON.parse(localStorage.getItem('user')).displayName;
 
   // Creando estructura
   const container = document.createElement('div');
@@ -31,7 +34,7 @@ export const Wall = (onNavigate) => {
 
   // Asignando clases
   container.classList.add('container');
-  title.classList.add('title');
+  title.classList.add('title-wall');
   divPost.classList.add('div-post');
   comments.classList.add('comments');
   form.classList.add('form-post');
@@ -42,7 +45,7 @@ export const Wall = (onNavigate) => {
   iconLogout.classList.add('icon-back');
 
   // Dando contenido a los elementos
-  title.textContent = 'No te lo pierdas';
+  title.textContent = `HOLA ${displayNameUser}`;
   post.name = 'message';
   post.maxLength = 300;
   post.autocomplete = 'off';
@@ -54,6 +57,7 @@ export const Wall = (onNavigate) => {
   iconLogout.src = '../assets/img/logout.png';
 
   // Asignando padres e hijos
+  // divHelper.insertAdjacentElement('afterbegin', title);
   form.append(post, buttonPost, buttonUpdateComment, buttonCancelEdit);
   divPost.append(form);
   container.append(iconLogout, title, divPost, comments);
@@ -96,14 +100,16 @@ export const Wall = (onNavigate) => {
       <div class="data-user" data-id="${doc.id}">
         <div class="header-post">
           <h4>${dataBase.name}</h4>
-            <time>${formatEvent}</time>
+            <time class="time">${formatEvent}</time>
         </div>
         <div class="input-post">
           <p id="input-edit">${dataBase.post}</p>
         </div>
         <div class="actions">
+        <div class="like">
           <img src="../assets/img/star.png" alt="edit" data-id="${doc.id}" class="btn-like">
             <p class="count">${dataBase.like.length}</p>
+            </div>
           ${eventWriter ? `<img src="../assets/img/edit.png" alt="edit" data-id="${doc.id}" class="btn-edit none"> ` : ''}
           ${eventWriter ? `<img src="../assets/img/delete.png" alt="btn-delete" data-id="${doc.id}"class="btn-delete none">` : ''}
         </div>
@@ -120,6 +126,7 @@ export const Wall = (onNavigate) => {
     btnsDelete.forEach((btn) => {
       btn.addEventListener('click', ({ target: { dataset } }) => {
         // console.log('Borrando', dataset.id);
+        // eslint-disable-next-line no-restricted-globals
         const confirmDelete = confirm('¿Realmente deseas eliminar esta publicación?');
         if (confirmDelete) {
           deleteComment(dataset.id);
