@@ -2,7 +2,13 @@
 import { showMessage } from '../helpers/templates.js';
 import { logOut } from '../lib/serviceAuth.js';
 import {
-  createPost, deleteComment, getComment, printEvent, updateComment,
+  createPost,
+  deleteComment,
+  getComment,
+  printEvent,
+  updateComment,
+  updateLike,
+  removeLike,
 } from '../lib/serviceFirestore';
 
 export const Wall = (onNavigate) => {
@@ -66,7 +72,7 @@ export const Wall = (onNavigate) => {
     createPost(postUser)
       .then((docRef) => {
         showMessage('Tu evento se ha creado con éxito');
-        console.log('Código del documento ', docRef.id);
+        // console.log('Código del documento ', docRef.id);
         form.reset();
       }).catch(() => {
         showMessage('Tu evento no pudo publicarse. Inténtalo de nuevo');
@@ -79,7 +85,7 @@ export const Wall = (onNavigate) => {
     querySnapshot.forEach((doc) => {
       // console.log('¿Qué se ve?', doc.id, ' => ', doc.data().userId === currentUserId);
       const dataBase = doc.data();
-      const commentUser = doc.data().userId;
+      const commentUser = doc.data().userUid;
       const eventDate = dataBase.datePost.toDate();
       const formatEvent = new Date(eventDate).toLocaleDateString();
 
@@ -96,6 +102,8 @@ export const Wall = (onNavigate) => {
           <p id="input-edit">${dataBase.post}</p>
         </div>
         <div class="actions">
+          <img src="../assets/img/star.png" alt="edit" data-id="${doc.id}" class="btn-like">
+            <p class="count">${dataBase.like.length}</p>
           ${eventWriter ? `<img src="../assets/img/edit.png" alt="edit" data-id="${doc.id}" class="btn-edit none"> ` : ''}
           ${eventWriter ? `<img src="../assets/img/delete.png" alt="btn-delete" data-id="${doc.id}"class="btn-delete none">` : ''}
         </div>
@@ -122,19 +130,35 @@ export const Wall = (onNavigate) => {
 
     // ----- Editando las publicaciones -----
     // consulta a firebase con commentUser
-    let contentInputEvent;
-    let dataComment;
+    const contentInputEvent = form.querySelector('.post');
     const btnsEdit = comments.querySelectorAll('.btn-edit');
-    // console.log(btnsEdit);
-    contentInputEvent = form.querySelector('.post');
-    // console.log(contentInputEvent);
+
+    // Dando like
+    const btnsLike = comments.querySelectorAll('.btn-like');
+    btnsLike.forEach((btn) => {
+      // console.log('Este es like', btn);
+      btn.addEventListener('click', ({ target: { dataset } }) => {
+        // console.log('Este es event', dataset.id);
+        getComment(dataset.id).then((doc) => {
+          const getLikes = doc.data();
+          const countLikes = getLikes.like;
+          // console.log('Esta es la data de los likes', getLikes);
+          // console.log('Este es el array', countLikes);
+          if (countLikes.includes(currentUserId)) {
+            removeLike(dataset.id, currentUserId);
+          } else {
+            updateLike(dataset.id, currentUserId);
+          }
+        });
+      });
+    });
 
     btnsEdit.forEach((btn) => {
       btn.addEventListener('click', async ({ target: { dataset } }) => {
         // console.log('Identificador Firestore', dataset.id);
         const getCommentUser = await getComment(dataset.id);
         // console.log('Trae doc(obj)', getCommentUser);
-        dataComment = getCommentUser.data();
+        const dataComment = getCommentUser.data();
         // console.log('Convirtiendo a datos', dataComment.userId);
         contentInputEvent.value = dataComment.post;
         buttonUpdateComment.style.display = 'block';
@@ -146,19 +170,18 @@ export const Wall = (onNavigate) => {
     });
 
     const btnUpdateComment = form.querySelector('.btn-update');
-    contentInputEvent = form.querySelector('.post');
 
     btnUpdateComment.addEventListener('click', (e) => {
       e.preventDefault();
       // let idComment = document.querySelector(`[data-id="${doc.id}"]`);
-      console.log('Actualizando', btnUpdateComment);
-      console.log('Objeto', dataComment);
-      updateComment(buttonUpdateComment.id, post.value);
-      buttonUpdateComment.style.display = 'none';
-      buttonCancelEdit.style.display = 'none';
-      buttonPost.style.display = 'block';
-      // dataComment.post = '';
-      post.value = '';
+      // console.log('Actualizando', btnUpdateComment);
+      // console.log('Objeto', dataComment);
+      updateComment(buttonUpdateComment.id, contentInputEvent.value).then(() => {
+        buttonUpdateComment.style.display = 'none';
+        buttonCancelEdit.style.display = 'none';
+        buttonPost.style.display = 'block';
+        contentInputEvent.value = '';
+      });
     });
   });
 
@@ -168,7 +191,6 @@ export const Wall = (onNavigate) => {
     buttonUpdateComment.style.display = 'none';
     buttonCancelEdit.style.display = 'none';
     buttonPost.style.display = 'block';
-    // dataComment.post = '';
     post.value = '';
   });
 
@@ -177,7 +199,7 @@ export const Wall = (onNavigate) => {
     logOut().then(() => {
       // Sign-out successful.
     }).catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
     onNavigate('/');
   });

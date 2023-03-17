@@ -1,5 +1,7 @@
 import {
   addDoc,
+  arrayRemove,
+  arrayUnion,
   collection,
   deleteDoc,
   doc,
@@ -22,7 +24,7 @@ const db = getFirestore(app);
 datos */
 export const createPost = (post) => addDoc(collection(db, 'eventos'), {
   name: auth.currentUser.displayName,
-  userId: auth.currentUser.uid,
+  userUid: auth.currentUser.uid,
   datePost: serverTimestamp(),
   post,
   like: [],
@@ -47,3 +49,12 @@ export const deleteComment = (id) => deleteDoc(doc(db, 'eventos', id));
 
 // ---------- Recuperando un documento de Firestore ----------
 export const updateComment = (id, post) => updateDoc(doc(db, 'eventos', id), { post });
+
+// ---------- Sección de like ----------
+export const updateLike = (id, uid) => updateDoc(doc(db, 'eventos', id), {
+  like: arrayUnion(uid),
+});
+
+export const removeLike = (id, uid) => updateDoc(doc(db, 'eventos', id), {
+  like: arrayRemove(uid),
+});
