@@ -80,19 +80,12 @@ export const Wall = (onNavigate) => {
       // console.log('¿Qué se ve?', doc.id, ' => ', doc.data().userId === currentUserId);
       const dataBase = doc.data();
       const commentUser = doc.data().userId;
+      const eventDate = dataBase.datePost.toDate();
+      const formatEvent = new Date(eventDate).toLocaleDateString();
 
-      // const eventDate = dataBase.today.toDate();
-      const formatEvent = new Date().toLocaleDateString();
-      // const formatEvent = new Date(eventDate).toLocaleDateString();
-      // const formatEvent = eventDate.toLocaleDateString('es-ES', {
-      //   day: '2-digit',
-      //   month: '2-digit',
-      //   year: '2-digit',
-      // });
       const eventWriter = commentUser === currentUserId;
       // console.log('¿A quién le corresponde el comentario?', eventWriter);
-      // console.log('Este es eventDate', eventDate);
-      // console.log('Este es formatDate', formatEvent);
+
       showEvent += `
       <div class="data-user" data-id="${doc.id}">
         <div class="header-post">
@@ -140,13 +133,14 @@ export const Wall = (onNavigate) => {
       btn.addEventListener('click', async ({ target: { dataset } }) => {
         // console.log('Identificador Firestore', dataset.id);
         const getCommentUser = await getComment(dataset.id);
-        // console.log('Trae doc(obj)', commentUser);
+        // console.log('Trae doc(obj)', getCommentUser);
         dataComment = getCommentUser.data();
-        // console.log('Convirtiendo a datos', dataComment);
+        // console.log('Convirtiendo a datos', dataComment.userId);
         contentInputEvent.value = dataComment.post;
         buttonUpdateComment.style.display = 'block';
         buttonCancelEdit.style.display = 'block';
         buttonUpdateComment.id = dataset.id;
+        // console.log('Id post', buttonUpdateComment.id);
         buttonPost.style.display = 'none';
       });
     });
@@ -160,12 +154,22 @@ export const Wall = (onNavigate) => {
       console.log('Actualizando', btnUpdateComment);
       console.log('Objeto', dataComment);
       updateComment(buttonUpdateComment.id, post.value);
-      buttonUpdateComment.style.display = 'block';
-      buttonCancelEdit.style.display = 'block';
-      buttonPost.style.display = 'none';
-      dataComment.post = '';
+      buttonUpdateComment.style.display = 'none';
+      buttonCancelEdit.style.display = 'none';
+      buttonPost.style.display = 'block';
+      // dataComment.post = '';
       post.value = '';
     });
+  });
+
+  const btnCancelComment = form.querySelector('.btn-cancel');
+  btnCancelComment.addEventListener('click', (e) => {
+    e.preventDefault();
+    buttonUpdateComment.style.display = 'none';
+    buttonCancelEdit.style.display = 'none';
+    buttonPost.style.display = 'block';
+    // dataComment.post = '';
+    post.value = '';
   });
 
   iconLogout.addEventListener('click', () => {

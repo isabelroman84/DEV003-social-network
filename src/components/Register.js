@@ -1,7 +1,5 @@
 import { showMessage } from '../helpers/templates.js';
-import {
-  auth, registerUser, sendEmail, updateName,
-} from '../lib/serviceAuth';
+import { registerUser, sendEmail, updateName } from '../lib/serviceAuth';
 
 export const Register = (onNavigate) => {
   // Creando estructura

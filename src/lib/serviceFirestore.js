@@ -35,8 +35,8 @@ export const querySnapshot = () => getDocs(collection(db, 'eventos'));
 
 // ---------- Creando instantáneas de la colección de Firestore ----------
 /* query es una función de consulta para especificar los documentos que quiero recuperar */
-const q = query(collection(db, 'eventos'));
-export const printEvent = (comment) => onSnapshot(q, orderBy('datePost', 'desc'), comment);
+const q = query(collection(db, 'eventos'), orderBy('datePost', 'desc'));
+export const printEvent = (consult) => onSnapshot(q, consult);
 
 // ---------- Recuperando un documento de Firestore ----------
 export const getComment = (id) => getDoc(doc(db, 'eventos', id));

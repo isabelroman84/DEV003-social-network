@@ -1,5 +1,7 @@
 import { showMessage } from '../helpers/templates.js';
-import { authGoogle, authUser, loginEmail } from '../lib/serviceAuth.js';
+import {
+  authGoogle, authUser, GoogleAuthProvider, loginEmail,
+} from '../lib/serviceAuth.js';
 
 export const Login = (onNavigate) => {
   // Creando estructura
@@ -78,7 +80,7 @@ export const Login = (onNavigate) => {
           localStorage.setItem('user', JSON.stringify(userAuth));
 
           authUser(userAuth);
-          // No puedo ver en consola, veo que está logueado por console de serviceAuth
+          // Veo que está logueado por console.log de serviceAuth
           if (!userAuth.emailVerified) {
             showMessage('Por favor verifica el email');
             // sin el return permite almacenar mensajes vacíos
@@ -100,29 +102,21 @@ export const Login = (onNavigate) => {
   buttonGoogle.addEventListener('click', () => {
     authGoogle()
       .then((result) => {
-      // const credential = GoogleAuthProvider.credentialFromResult(result);
-      // const token = credential.accessToken;
-      // console.log(token);
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // console.log(token);
         const user = result.user;
-        console.log('autenticado Google', user);
+        // console.log('autenticado Google', user);
         localStorage.setItem('user', JSON.stringify(user));
         onNavigate('/wall');
 
         // alert('Por favor verifica el email');
       }).catch((error) => {
         const errorCode = error.code;
-        console.log(errorCode);
-        // const errorMessage = error.message;
-        // console.log(errorMessage);
-        // // The email of the user's account used.
-        // const email = error.customData.email;
-        // console.log(email);
-        // // The AuthCredential type that was used.
-        // const credential = GoogleAuthProvider.credentialFromError(error);
-        // console.log(credential);
-        // ...
+        // console.log(errorCode);
       });
   });
+
   registerhref.addEventListener('click', () => onNavigate('/register'));
 
   return container;

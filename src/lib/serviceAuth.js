@@ -39,7 +39,7 @@ export const loginEmail = (email, password) => signInWithEmailAndPassword(auth, 
 // Iniciando sesión con Google
 export const provider = new GoogleAuthProvider();
 export const authGoogle = () => signInWithPopup(auth, provider);
-// export { GoogleAuthProvider };
+export { GoogleAuthProvider };
 
 // ---------- Función para obtener usuario con sesión activa (observador) ----------
 // export const authUser = onAuthStateChanged(auth, (user) => {
@@ -52,8 +52,8 @@ export const authGoogle = () => signInWithPopup(auth, provider);
 //   }
 // });
 export const authUser = onAuthStateChanged(auth, (user) => {
-  console.log('Usuario logueado por evento', user);
-  return user;
+  console.log('Usuario logueado por evento onAuthStateChanged', user);
+  // return user;
 });
 
 // ---------- Función para cerrar sesión ----------
