@@ -90,7 +90,7 @@ export const Wall = (onNavigate) => {
       // console.log('¿Qué se ve?', doc.id, ' => ', doc.data().userId === currentUserId);
       const dataBase = doc.data();
       const commentUser = doc.data().userUid;
-      const eventDate = dataBase.datePost.toDate();
+      const eventDate = dataBase.datePost ? dataBase.datePost.toDate() : '';
       const formatEvent = new Date(eventDate).toLocaleDateString();
 
       const eventWriter = commentUser === currentUserId;
