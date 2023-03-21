@@ -1,5 +1,6 @@
 import { showMessage } from '../helpers/templates.js';
 import { registerUser, sendEmail, updateName } from '../lib/serviceAuth';
+import backImg from '../assets/img/back.png';
 
 export const Register = (onNavigate) => {
   // Creando estructura
@@ -48,7 +49,7 @@ export const Register = (onNavigate) => {
   inputRePassword.autocomplete = 'off';
   buttonRegister.textContent = 'Crea tu cuenta';
   // buttonRegister.type = 'submit';
-  iconBack.src = '../assets/img/back.png';
+  iconBack.src = backImg;
 
   // Asignando padres e hijos
   form.append(title, inputName, inputEmail);
@@ -58,7 +59,7 @@ export const Register = (onNavigate) => {
 
   // Asignando funcionalidad
   iconBack.addEventListener('click', () => {
-    onNavigate('/login');
+    onNavigate('login');
   });
 
   const entryName = form.querySelector('#entry-name');
@@ -88,7 +89,7 @@ export const Register = (onNavigate) => {
             updateName(nameUser).then(() => {
               showMessage('Verifica tu email');
               // alert('Verifica tu email');
-              onNavigate('/login');
+              onNavigate('login');
             });
           });
         })

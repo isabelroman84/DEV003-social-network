@@ -1,8 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { showMessage } from '../helpers/templates.js';
 import {
-  authGoogle, authUser, GoogleAuthProvider, loginEmail,
+  authGoogle,
+  authUser,
+  GoogleAuthProvider,
+  loginEmail,
 } from '../lib/serviceAuth.js';
+import btnGoogleImg from '../assets/img/google2x.png';
 
 export const Login = (onNavigate) => {
   // Creando estructura
@@ -27,6 +31,7 @@ export const Login = (onNavigate) => {
   divGmail.classList.add('div-gmail');
   divLine.classList.add('line');
   form.classList.add('form');
+  form.setAttribute('data-testid', 'login-form');
   labelEmail.classList.add('label');
   labelPassword.classList.add('label');
   inputEmail.classList.add('input');
@@ -54,7 +59,7 @@ export const Login = (onNavigate) => {
   register.textContent = '¿Aún no tienes una cuenta?';
   registerhref.setAttribute('href', '/register');
   registerhref.textContent = 'Regístrate';
-  buttonGoogle.src = '../assets/img/google_2x.png';
+  buttonGoogle.src = btnGoogleImg;
 
   // Asignando padres e hijos
   divLine.appendChild(line);
@@ -86,7 +91,7 @@ export const Login = (onNavigate) => {
             // sin el return permite almacenar mensajes vacíos
             return;
           }
-          onNavigate('/wall');
+          onNavigate('wall');
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -109,7 +114,7 @@ export const Login = (onNavigate) => {
         const user = result.user;
         // console.log('autenticado Google', user);
         localStorage.setItem('user', JSON.stringify(user));
-        onNavigate('/wall');
+        onNavigate('wall');
 
         // alert('Por favor verifica el email');
       }).catch((error) => {
@@ -118,7 +123,7 @@ export const Login = (onNavigate) => {
       });
   });
 
-  registerhref.addEventListener('click', () => onNavigate('/register'));
+  registerhref.addEventListener('click', () => onNavigate('register'));
 
   return container;
 };

@@ -12,6 +12,10 @@ import {
   updateLike,
   removeLike,
 } from '../lib/serviceFirestore';
+import editImg from '../assets/img/edit.png';
+import deleteImg from '../assets/img/delete.png';
+import starImg from '../assets/img/star.png';
+import logoutImg from '../assets/img/logout.png';
 
 export const Wall = (onNavigate) => {
   /* En login guardé el user en el localStorage y aquí puedo traerlo porque
@@ -54,7 +58,7 @@ export const Wall = (onNavigate) => {
   buttonPost.type = 'submit';
   buttonUpdateComment.textContent = 'Actualizar';
   buttonCancelEdit.textContent = 'Cancelar';
-  iconLogout.src = '../assets/img/logout.png';
+  iconLogout.src = logoutImg;
 
   // Asignando padres e hijos
   // divHelper.insertAdjacentElement('afterbegin', title);
@@ -107,11 +111,11 @@ export const Wall = (onNavigate) => {
         </div>
         <div class="actions">
         <div class="like">
-          <img src="../assets/img/star.png" alt="edit" data-id="${doc.id}" class="btn-like">
+          <img src="${starImg}" alt="edit" data-id="${doc.id}" class="btn-like">
             <p class="count">${dataBase.like.length}</p>
             </div>
-          ${eventWriter ? `<img src="../assets/img/edit.png" alt="edit" data-id="${doc.id}" class="btn-edit none"> ` : ''}
-          ${eventWriter ? `<img src="../assets/img/delete.png" alt="btn-delete" data-id="${doc.id}"class="btn-delete none">` : ''}
+          ${eventWriter ? `<img src="${editImg}" alt="edit" data-id="${doc.id}" class="btn-edit none"> ` : ''}
+          ${eventWriter ? `<img src="${deleteImg}" alt="btn-delete" data-id="${doc.id}"class="btn-delete none">` : ''}
         </div>
       </div>
           `;
@@ -208,7 +212,7 @@ export const Wall = (onNavigate) => {
     }).catch((error) => {
       // console.log(error);
     });
-    onNavigate('/');
+    onNavigate('');
   });
   return container;
 };

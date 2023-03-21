@@ -12,20 +12,23 @@ html {
       --inputs: #FFFF;
     }
 
-    /* Para que todos los elementos del html lo hereden */
-    *,
+/* Para que todos los elementos del html lo hereden */
+
+*,
     *::after,
     *::before {
     box-sizing: inherit;
     }
 
 /* overflow es para que por responsividad no se desborde el contenido */
+
 body {
     margin: 0;
     overflow-x: hidden;
 }
 
 /* para que las img sean responsivas */
+
 img {
     max-width: 100%;
     height: auto;
@@ -56,6 +59,7 @@ img {
    }
 
 /* Vista welcome */
+
 .container{
     width: 100%;
     height: 100%;
@@ -66,7 +70,7 @@ img {
    }
 
 .div-text {
-    background-image: url('img/ciudad.png');
+    background-image: url('/DEV003-social-network/assets/ciudad.8589de73.png');
     background-size: cover;
     text-align: center;
     width: 100%;
@@ -96,13 +100,14 @@ img {
     box-shadow: 0 .5rem 1rem rgba(93, 241, 126, 0.15)!important;
     background: var(--button);
    }
-   
+
 .btn-w:hover {
     background: var(--secundary-color);
     color: var(--inputs);
    }
-   
+
 /* Vista Register */
+
 .icon-back {
     width: 50px;
     height: 50px;
@@ -128,7 +133,7 @@ img {
     color: var(--inputs);
     margin: 0.4rem 2rem;
    }
-   
+
 .input {
     padding: 1rem;
     margin: 0.7rem 0;
@@ -153,6 +158,7 @@ img {
    }
 
 /* Vista Login */
+
 .form {
     display: flex;
     flex-direction: column;
@@ -177,7 +183,7 @@ img {
     height: 0.2rem;
     width: 20rem;
 }
-    
+
 .register {
     display: flex;
     flex-direction: column;
@@ -194,6 +200,7 @@ img {
 }
 
 /* Vista Wall */
+
 .title-wall {
     font-size: 14px;
     letter-spacing: 0.1rem;
@@ -243,7 +250,7 @@ img {
 
 .btn-update, .btn-cancel {
     display: none;
-} 
+}
 
 .comments {
     /* border: solid red; */
@@ -322,7 +329,7 @@ img {
     font-size: 12px;
     color: var(--container);
     background: var(--primary-color);
-} 
+}
 
 #information a {
     text-decoration: none;
@@ -331,16 +338,17 @@ img {
 }
 
 /* ---------------------------- Pantalla ordenador ---------------------------- */
-@media screen and (min-width: 768px){
+
+@media screen and (min-width: 768px) and (max-width: 1366px){
     /* Vista Welcome */
     .div-text {
-        background-image: url('img/ciudad.png');
+        background-image: url('/DEV003-social-network/assets/ciudad.8589de73.png');
         background-size: cover;
         text-align: center;
     }
     
     .text-w {
-        margin: 12% 7%;
+        margin: 5% 7%;
         color: var(--primary-color);
         font-style: italic;
         font-size: 50px;
@@ -385,25 +393,23 @@ img {
 
        .google {
         padding: 1rem;
-        margin: 1rem 8rem;
-        width: 26rem;
-        height: 9rem;
+        margin: 1rem 12rem;
         }
 
         .hr {
-        margin: 0 1rem;
+        margin: 1fr;
         height: 0.2rem;
-        width: 40rem;
+        width: 80rem;
         }
 
         .register {
-        font-weight: 500;
-        font-size: 32px;
+        font-weight: 600;
+        font-size: 40px;
         }
 
         .href{
-        font-weight: 500;
-        font-size: 35px;
+        font-weight: 600;
+        font-size: 45px;
         }
 
          /* Vista login */
@@ -419,9 +425,9 @@ img {
         }
 
         .icon-back {
-            width: 60px;
-            height: 60px;
-            margin: 3% 83%;
+            width: 64px;
+            height: 64px;
+            margin: 3% 90%;
         }
         
         /* Vista Wall */
@@ -455,5 +461,6 @@ img {
         .btn-delete {
             width: 40px;
             height: 40px;
-        } 
+        }
+        
 }
