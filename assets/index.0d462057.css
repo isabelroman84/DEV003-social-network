@@ -70,7 +70,7 @@ img {
    }
 
 .div-text {
-    background-image: url('/DEV003-social-network/assets/ciudad.8589de73.png');
+    background-image: url('https://github.com/isabelroman84/DEV003-social-network/blob/main/src/assets/img/ciudad.png?raw=true');
     background-size: cover;
     text-align: center;
     width: 100%;
@@ -339,14 +339,8 @@ img {
 
 /* ---------------------------- Pantalla ordenador ---------------------------- */
 
-@media screen and (min-width: 768px) and (max-width: 1500px){
-    /* Vista Welcome */
-    .div-text {
-        background-image: url('/DEV003-social-network/assets/ciudad.8589de73.png');
-        background-size: cover;
-        text-align: center;
-    }
-    
+@media screen and (min-width: 768px){
+    /* Vista Welcome */ 
     .text-w {
         margin: 12% 7%;
         color: var(--primary-color);

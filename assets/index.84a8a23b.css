@@ -70,7 +70,7 @@ img {
    }
 
 .div-text {
-    background-image: url('/DEV003-social-network/assets/ciudad.8589de73.png');
+    background-image: url('/assets/ciudad.8589de73.png');
     background-size: cover;
     text-align: center;
     width: 100%;
@@ -339,16 +339,10 @@ img {
 
 /* ---------------------------- Pantalla ordenador ---------------------------- */
 
-@media screen and (min-width: 768px) and (max-width: 1366px){
-    /* Vista Welcome */
-    .div-text {
-        background-image: url('/DEV003-social-network/assets/ciudad.8589de73.png');
-        background-size: cover;
-        text-align: center;
-    }
-    
+@media screen and (min-width: 768px) and (max-width: 1440px) {
+    /* Vista Welcome */ 
     .text-w {
-        margin: 5% 7%;
+        margin: 12% 7%;
         color: var(--primary-color);
         font-style: italic;
         font-size: 50px;
@@ -393,23 +387,25 @@ img {
 
        .google {
         padding: 1rem;
-        margin: 1rem 12rem;
+        margin: 1rem auto;
+        width: 26rem;
+        height: 9rem;
         }
 
         .hr {
-        margin: 1fr;
+        margin: 0.1rem auto;
         height: 0.2rem;
-        width: 80rem;
+        width: 40rem;
         }
 
         .register {
-        font-weight: 600;
-        font-size: 40px;
+        font-weight: 500;
+        font-size: 32px;
         }
 
         .href{
-        font-weight: 600;
-        font-size: 45px;
+        font-weight: 500;
+        font-size: 35px;
         }
 
          /* Vista login */
@@ -425,9 +421,9 @@ img {
         }
 
         .icon-back {
-            width: 64px;
-            height: 64px;
-            margin: 3% 90%;
+            width: 60px;
+            height: 60px;
+            margin: 3% 83%;
         }
         
         /* Vista Wall */
@@ -461,6 +457,5 @@ img {
         .btn-delete {
             width: 40px;
             height: 40px;
-        }
-        
+        } 
 }
