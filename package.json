@@ -14,7 +14,7 @@
     "htmlhint": "htmlhint dist/*.html ",
     "eslint": "eslint --ext .js src/ test/",
     "stylelint": "stylelint --aei src/**/*.css",
-    "_pretest": "npm run htmlhint && npm run eslint && npm run stylelint",
+    "pretest": "npm run htmlhint && npm run eslint && npm run stylelint",
     "test": "jest --coverage --env=jsdom",
     "dev": "vite dev src",
     "start": "npm run dev",
@@ -23,11 +23,12 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "firebase": "^9.17.1",
+    "firebase": "^9.18.0",
     "toastify-js": "^1.12.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.19.4",
+    "esbuild-jest": "^0.5.0",
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.18.2",

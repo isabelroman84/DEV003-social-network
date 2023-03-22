@@ -53,7 +53,7 @@ export const Wall = (onNavigate) => {
   post.name = 'message';
   post.maxLength = 300;
   post.autocomplete = 'off';
-  post.placeholder = 'Agrega aquí información de tu evento (fecha, lugar, valor)';
+  post.placeholder = 'Agrega información de tu evento';
   buttonPost.textContent = 'Invita';
   buttonPost.type = 'submit';
   buttonUpdateComment.textContent = 'Actualizar';
@@ -212,7 +212,7 @@ export const Wall = (onNavigate) => {
     }).catch((error) => {
       // console.log(error);
     });
-    onNavigate('');
+    onNavigate('/');
   });
   return container;
 };

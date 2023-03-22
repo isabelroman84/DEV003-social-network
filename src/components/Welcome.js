@@ -20,7 +20,7 @@ export const Welcome = (onNavigate) => {
   container.append(divText);
 
   buttonWelcome.addEventListener('click', () => {
-    onNavigate('login');
+    onNavigate('/login');
   });
 
   return container;

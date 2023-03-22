@@ -26,7 +26,7 @@ export const Register = (onNavigate) => {
   inputEmail.classList.add('input');
   inputPassword.classList.add('input');
   inputRePassword.classList.add('input');
-  buttonRegister.classList.add('btn');
+  buttonRegister.classList.add('btn-r');
   iconBack.classList.add('icon-back');
 
   // Dando contenido a los elementos
@@ -59,7 +59,7 @@ export const Register = (onNavigate) => {
 
   // Asignando funcionalidad
   iconBack.addEventListener('click', () => {
-    onNavigate('login');
+    onNavigate('/login');
   });
 
   const entryName = form.querySelector('#entry-name');
@@ -89,7 +89,7 @@ export const Register = (onNavigate) => {
             updateName(nameUser).then(() => {
               showMessage('Verifica tu email');
               // alert('Verifica tu email');
-              onNavigate('login');
+              onNavigate('/login');
             });
           });
         })

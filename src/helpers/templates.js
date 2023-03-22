@@ -8,7 +8,8 @@ export function showMessage(message) {
     duration: 3000,
     style: {
       // background: type === 'success' ? '#49BF9E' : 'linear-gradient(to right, #F24495, #F2BC57)',
-      background: 'linear-gradient(to right, #F24495, #F2BC57)',
+      // background: 'linear-gradient(to right, #F24495, #F2BC57)',
+      background: 'linear-gradient(to right, #49BF9E, #F2BC57)',
     },
   }).showToast();
 }

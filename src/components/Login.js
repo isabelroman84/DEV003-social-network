@@ -71,6 +71,7 @@ export const Login = (onNavigate) => {
 
   // Asignando funcionalidad
   form.addEventListener('submit', (e) => {
+    console.log('form');
     e.preventDefault();
     const emailUser = form.email.value;
     const passwordUser = form.password.value;
@@ -91,7 +92,7 @@ export const Login = (onNavigate) => {
             // sin el return permite almacenar mensajes vacíos
             return;
           }
-          onNavigate('wall');
+          onNavigate('/wall');
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -114,7 +115,7 @@ export const Login = (onNavigate) => {
         const user = result.user;
         // console.log('autenticado Google', user);
         localStorage.setItem('user', JSON.stringify(user));
-        onNavigate('wall');
+        onNavigate('/wall');
 
         // alert('Por favor verifica el email');
       }).catch((error) => {
@@ -123,7 +124,7 @@ export const Login = (onNavigate) => {
       });
   });
 
-  registerhref.addEventListener('click', () => onNavigate('register'));
+  registerhref.addEventListener('click', () => onNavigate('/register'));
 
   return container;
 };
