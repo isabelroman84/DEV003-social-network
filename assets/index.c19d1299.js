@@ -54,7 +54,7 @@ const Welcome = (onNavigate2) => {
   divText.append(textW, buttonWelcome);
   container.append(divText);
   buttonWelcome.addEventListener("click", () => {
-    onNavigate2("/login");
+    onNavigate2("login");
   });
   return container;
 };
@@ -7292,7 +7292,7 @@ const Register = (onNavigate2) => {
   divForm.appendChild(form);
   container.append(iconBack, divForm, divError);
   iconBack.addEventListener("click", () => {
-    onNavigate2("/login");
+    onNavigate2("login");
   });
   const entryName = form.querySelector("#entry-name");
   entryName.addEventListener("input", () => {
@@ -7315,7 +7315,7 @@ const Register = (onNavigate2) => {
         sendEmail().then(() => {
           updateName(nameUser).then(() => {
             showMessage("Verifica tu email");
-            onNavigate2("/login");
+            onNavigate2("login");
           });
         });
       }).catch((error) => {
@@ -7347,7 +7347,7 @@ const Register = (onNavigate2) => {
   });
   return container;
 };
-const btnGoogleImg = "/assets/google2x.1811e950.png";
+const btnGoogleImg = "/DEV003-social-network/assets/google2x.1811e950.png";
 const Login = (onNavigate2) => {
   const container = document.createElement("div");
   const divForm = document.createElement("div");
@@ -7417,7 +7417,7 @@ const Login = (onNavigate2) => {
           showMessage("Por favor verifica el email");
           return;
         }
-        onNavigate2("/wall");
+        onNavigate2("wall");
       }).catch((error) => {
         const errorCode = error.code;
         if (errorCode === "auth/invalid-email") {
@@ -7434,12 +7434,12 @@ const Login = (onNavigate2) => {
       credential.accessToken;
       const user = result.user;
       localStorage.setItem("user", JSON.stringify(user));
-      onNavigate2("/wall");
+      onNavigate2("wall");
     }).catch((error) => {
       error.code;
     });
   });
-  registerhref.addEventListener("click", () => onNavigate2("/register"));
+  registerhref.addEventListener("click", () => onNavigate2("register"));
   return container;
 };
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
@@ -18544,11 +18544,11 @@ const Wall = (onNavigate2) => {
     logOut().then(() => {
     }).catch((error) => {
     });
-    onNavigate2("/");
+    onNavigate2("");
   });
   return container;
 };
-const logoImg = "/assets/citi-pq.46a33ed2.png";
+const logoImg = "/DEV003-social-network/assets/citi-pq.46a33ed2.png";
 function Header() {
   const header = document.createElement("div");
   const logo = document.createElement("img");
@@ -18560,22 +18560,23 @@ function Header() {
 }
 const root = document.getElementById("root");
 const routes = {
-  "/": Welcome,
-  "/register": Register,
-  "/login": Login,
-  "/wall": Wall
+  [`${"/DEV003-social-network/"}`]: Welcome,
+  [`${"/DEV003-social-network/"}register`]: Register,
+  [`${"/DEV003-social-network/"}login`]: Login,
+  [`${"/DEV003-social-network/"}wall`]: Wall
 };
 const onNavigate = (pathname) => {
+  const fullPath = "/DEV003-social-network/" + pathname;
   window.history.pushState(
     {},
-    pathname,
-    window.location.origin + pathname
+    fullPath,
+    window.location.origin + fullPath
   );
   while (root.firstChild) {
     root.removeChild(root.firstChild);
   }
   root.appendChild(Header());
-  root.appendChild(routes[pathname](onNavigate));
+  root.appendChild(routes[fullPath](onNavigate));
 };
 root.appendChild(Header());
 root.appendChild(routes[window.location.pathname](onNavigate));
