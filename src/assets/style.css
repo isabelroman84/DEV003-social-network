@@ -196,7 +196,7 @@ img {
 
 .hr {
     background: var(--secundary-color);
-    margin: 0-1rem auto;
+    margin: 0.1rem auto;
     height: 0.2rem;
     width: 20rem;
 }
@@ -242,7 +242,7 @@ img {
 
 .post {
     display: flex;
-    font-size: 12x;
+    font-size: 12px;
     flex-wrap: wrap;
     padding: 0.5rem;
     justify-content: center;
@@ -635,8 +635,8 @@ img {
     
 #information {
     width: 700px;
-    margin-top: auto;
     margin: 0 auto;
+    margin-top: auto;
     font-size: 8px;
     padding: 0.5rem;
     } 

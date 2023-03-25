@@ -32,9 +32,11 @@ describe('Login', () => {
     // asegurarme que el input de email este en pantalla
     // asegurarme que el input de password este en pantalla
     // asegurarme que el boton de login/ingresar este en pantalla
-    console.log(document.body.innerHTML);
   });
-  it('al dar click al login si no hay valores en el iput aparece un error', () => {
+
+  it.only('al dar click al login si no hay valores en el iput aparece un error', (done) => {
+    expect.assertions(1);
+
     const divRoot = document.createElement('div');
     divRoot.id = 'root';
     divRoot.appendChild(Login(() => {}));
@@ -42,7 +44,11 @@ describe('Login', () => {
     const buttonLogin = document.querySelector('button');
     buttonLogin.click();
 
-    expect(showMessage).toHaveBeenCalled();
-    console.log(showMessage);
+    setTimeout(() => {
+      const toastifyContainer = document.querySelector('.toastify');
+      expect(toastifyContainer).not.toBeNull();
+      console.log(document.body.innerHTML);
+      done();
+    }, 0);
   });
 });

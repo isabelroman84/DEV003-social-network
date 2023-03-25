@@ -71,10 +71,10 @@ export const Login = (onNavigate) => {
 
   // Asignando funcionalidad
   form.addEventListener('submit', (e) => {
-    console.log('form');
     e.preventDefault();
-    const emailUser = form.email.value;
-    const passwordUser = form.password.value;
+    // elements es una propiedad del form donde está disponible email y password
+    const emailUser = form.elements.email.value;
+    const passwordUser = form.elements.password.value;
     // console.log(emailUser, passwordUser);
 
     if (emailUser === '' || passwordUser === '') {
